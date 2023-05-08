@@ -1,0 +1,5 @@
+<?php
+
+// define('PUBLIC', "public/");
+
+?>

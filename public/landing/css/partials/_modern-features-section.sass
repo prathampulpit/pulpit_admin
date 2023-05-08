@@ -1,0 +1,70 @@
+.modern-features-section
+    background: #FFFEFE
+    padding: 5rem 0rem
+
+    .row
+        @media screen and (max-width: 768px)
+            flex-direction: column-reverse
+
+    .features-list
+        padding: 0rem 3rem 0rem 1rem
+        @media screen and (max-width: 768px)
+            padding: 2rem
+
+        .item
+            display: grid
+            grid-template-columns: 70px 1fr
+            grid-gap: 0.5rem
+            background: #FFFFFF
+            box-shadow: 0px 4px 40px rgba(43, 89, 255, 0.08)
+            border-radius: 10px
+            margin-bottom: 3rem
+            padding: 1.5rem
+            width: 100%
+            &:last-child
+                margin-bottom: 0rem
+
+            @media screen and (min-width: 600px)
+                &.item-2
+                    margin-left: -3rem
+
+            .icon
+                grid-row-start: 1
+                grid-row-end: 3
+            
+            h1
+                font-weight: 700
+                font-size: 20px
+                line-height: 26px
+                color: #000B33
+                margin-bottom: 0.10rem
+            p
+                font-weight: 400
+                font-size: 16px
+                line-height: 26px
+                color: #000B33
+                margin-bottom: 0rem
+
+
+    .text
+        @media screen and (max-width: 768px)
+            margin-bottom: 2rem
+        p.bold
+            font-weight: 600
+            font-size: 20px
+            line-height: 26px
+
+        .heading
+            font-weight: 700
+            font-size: 48px
+            line-height: 58px
+            letter-spacing: -0.5px
+            color: #000B33
+            margin-bottom: 1.5rem
+        p.text
+            font-weight: 400
+            font-size: 16px
+            line-height: 26px
+            color: #000B33
+            opacity: 0.8
+            

@@ -1,0 +1,61 @@
+.mp-client .sidebar-icon { display: none; }
+.client-dashboard .nav-sec { padding: 0 20px; }
+.client-dashboard .right-info .badge-info-mp { margin-right: 20px; white-space: nowrap; }
+.client-dashboard .right-info .number { height: 24px; width: 24px; line-height: 24px; background-color: #FFA63E; border-radius: 100%; text-align: center; font-size: 12px; color: #fff; margin-right: 10px; }
+.gauge-container { position: relative; width: 90px; }
+.mp-client .gauge { height: 45px; margin-top: 6px; }
+.mp-client .gauge__container { position: relative; width: 90px; height: 45px; }
+.mp-client .gauge__background { width: 90px; height: 45px; background-color: #D7DCE3; }
+.mp-client .gauge__center { width: 60px; height: 30px; top: 15px; margin-left: 16px; background-color: #FFF5E6; }
+.mp-client .gauge__data { width: 90px; height: 45px; background-color: #00F393; }
+.mp-client .value-wrapper { background-color: #FFF5E8; padding: 0 20px 0 40px; }
+.mp-client .gauge-container > p { position: absolute; top: 50%; left: 35px; margin: 12px 0 0; transform: translateY(-50%); }
+.mp-client .nav-tabs .nav-item { margin-bottom: 0; }
+.mp-client .nav-tabs .nav-link { border: none; border-bottom: 2px solid transparent; color: var(--theme-gray); padding: 12px 15px 11px; }
+.mp-client .nav-tabs .nav-link.active { border-bottom: 2px solid #FFA63E; color: #FFA63E; }
+.mp-client .tab-content { padding: 20px; }
+.mp-statastics { box-shadow: inset -1px 1px 0 0 #D7DCE3, inset 0 -3px 0 0 #D7DCE3; overflow: auto; }
+.mp-statastics .flex-fill {
+    -ms-flex: 1 1 auto !important;
+    flex: 1 1 auto !important;
+}
+body.mp-client .table tr th { box-shadow: none; font-weight: normal; border: none; border-bottom: 1px solid #dee2e6; }
+.mp-client .progress-bar { position: relative; height: 87px; width: 87px; overflow: hidden; margin: auto; }
+.mp-client .progress-bar div { position: absolute; height: 87px; width: 87px; border-radius: 50%; }
+.mp-client .progress-bar div span { position: absolute; font-family: var(--bold-font); font-size: 20px; line-height: 75px; color: #000; height: 75px; width: 75px; left: 6px; top: 6px; text-align: center; border-radius: 50%; background-color: white; }
+.mp-client .progress-bar .background { background-color: #b3cef6; }
+.mp-client .progress-bar .rotate { clip: rect(0 50px 87px 0); background-color: #4b86db; }
+.mp-client .progress-bar .left { clip: rect(0 50px 87px 0); opacity: 1; background-color: #b3cef6; }
+.mp-client .progress-bar .right { clip: rect(0 50px 87px 0); transform: rotate(180deg); opacity: 0; background-color: #4b86db; }
+@keyframes 
+toggle {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@media screen and (min-width: 576px){
+	.mp-client .value-wrapper { -webkit-clip-path: polygon(100% 0, 100% 100%, 0 99%, 10% 0); clip-path: polygon(100% 0, 100% 100%, 0 99%, 10% 0); margin-right: -20px; }
+}
+
+@media screen and (max-width: 991px){
+	.right-info { width: 100%; }
+	.client-dashboard .nav-tabs { margin-top: 20px; width: 100%; }
+}
+
+@media screen and (max-width: 991px){
+	.navbar-toggler { display: none; }
+}
+
+@media screen and (max-width: 767px){
+	.client-logo span { display: none; }
+}
+
+@media screen and (max-width: 575px){
+.badge-info-mp { margin: 20px 0; }
+.mp-client .value-wrapper { margin-right: 0; padding: 0 20px; width: 100%; justify-content: center; }
+.mp-client .nav-tabs .nav-link { padding: 12px 8px 11px; }
+.profile .dropdown .dropdown-toggle { font-size: 0; }
+.profile .dropdown .dropdown-toggle:after { margin-bottom: -8px; }
+.profile .dropdown-menu { left: auto; right: 0; }
+.client-dashboard .right-info { justify-content: center; }
+}

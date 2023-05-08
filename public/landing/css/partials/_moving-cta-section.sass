@@ -1,0 +1,53 @@
+.moving-cta
+    background: $primary-color
+    border-radius: 20px
+    overflow: hidden
+
+    h1
+        font-weight: 700
+        font-size: 40px
+        line-height: 49px
+        color: #FFFFFF
+        margin-bottom: 1.5rem
+
+    form.business-form
+        @media screen and (max-width: 768px)
+            margin-bottom: 3rem
+        @media screen and (max-width: 600px)
+            .col-6
+                width: 100%
+
+        width: 100%
+        .input-box
+            background: #EFF0F6 !important
+            border-radius: 16px
+            height: 64px
+            padding: 1rem
+            margin-bottom: 1rem
+            input
+                background: none
+                border: none
+                outline: none
+                width: 100%
+        .btn-submit
+            margin-top: 0.5rem
+            padding: 20px 32px
+            gap: 16px
+            height: 72px
+            background: $off-white
+            border-radius: 16px
+            color: $primary-color
+            width: 100%
+            font-weight: 600
+            font-size: 18px
+            line-height: 32px
+            letter-spacing: 0.75px
+            &:hover
+                background: darken($primary-color, 10)
+                color: $light
+
+
+    .img
+        transform: scaleY(1.2)
+        img
+            width: 100%

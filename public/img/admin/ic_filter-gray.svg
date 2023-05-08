@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>ic_filter-gray</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic_filter-gray" fill="#414042" fill-rule="nonzero">
+            <path d="M6.0767286,7.5605969 C6.2461696,7.7433154 6.3391961,7.9820018 6.3391961,8.2289188 L6.3391961,15.5047381 C6.3391961,15.9426206 6.872437,16.1648459 7.1880625,15.8570063 L9.2363059,13.5310487 C9.5104017,13.2051183 9.6615697,13.0437828 9.6615697,12.7211611 L9.6615697,8.2305649 C9.6615697,7.9836479 9.7562574,7.7449616 9.9240372,7.5622266 L15.8012996,1.2428153 C16.2415141,0.76873476 15.9026486,0 15.2514468,0 L0.74928582,0 C0.09810058,0 -0.24244271,0.76708865 0.19943298,1.2428153 L6.0767286,7.5605969 Z" id="path-1"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,44 @@
+
+header
+    padding: 24px 0px
+    background: $light
+    .logo
+        height: 48px
+        width: 118.37px
+
+    .nav-item
+        padding: 0rem 1.5rem
+        &:last-child
+            padding-right: 0px
+        .nav-link
+            font-family: 'Poppins', sans-serif
+            font-style: normal
+            font-weight: 600
+            font-size: 13px
+            line-height: 22px
+            letter-spacing: 0.25px
+            color: $dark-color
+            &.active,
+            &:hover
+                color: $light-color
+
+            &.btn.btn-success
+                display: flex
+                flex-direction: row
+                justify-content: center
+                align-items: center
+                padding: 9px 22px
+                gap: 12px
+                color: $light
+
+                width: 120px
+                height: 40px
+
+                background: $primary-color
+                border-radius: 8px
+                border: none
+                &:hover
+                    background: darken($primary-color, 10)
+                img
+                    width: 14.67px
+                    height: 14.67px

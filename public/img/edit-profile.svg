@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>edit-profile</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="edit-profile">
+            <circle id="Oval" fill="#F59F3F" fill-rule="nonzero" cx="12.5" cy="12.5" r="12.5"></circle>
+            <g id="edit-24px" transform="translate(3.125000, 3.125000)">
+                <path d="M2.34375,13.4765625 L2.34375,16.40625 L5.2734375,16.40625 L13.9140625,7.765625 L10.984375,4.8359375 L2.34375,13.4765625 Z M16.1796875,5.5 C16.484375,5.1953125 16.484375,4.703125 16.1796875,4.3984375 L14.3515625,2.5703125 C14.046875,2.265625 13.5546875,2.265625 13.25,2.5703125 L11.8203125,4 L14.75,6.9296875 L16.1796875,5.5 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+                <polygon id="Path" points="0 0 18.75 0 18.75 18.75 0 18.75"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,420 @@
+.blogs-section
+    padding: 5rem 0rem
+    .line
+            opacity: 0.1
+            border: 1px solid #377CFD
+
+    .blog-title-main
+        font-weight: 700
+        font-size: 48px
+        line-height: 56px
+        letter-spacing: 1px
+        color: #14142B
+
+    .card
+        border: none
+        background: #FFFFFF
+        box-shadow: 0px 4px 40px rgba(43, 89, 255, 0.08)
+        border-radius: 10px
+        padding: 10px
+        .card-img
+            img
+                width: 100%
+                border-radius: 20px
+
+        .card-content
+            &.big-card
+                padding: 2rem
+                @media screen and (min-width: 768px)
+                    padding: 2rem 4rem
+                @media screen and (max-width: 492px)
+                    .blog-info
+                        flex-direction: column
+                        align-items: flex-start !important
+                        justify-content: flex-start
+                        .icon
+                            margin-bottom: 0.75rem
+
+                @media screen and (min-width: 576px) and (max-width: 900px)
+                    .blog-info
+                        flex-wrap: wrap !important
+                        .icon
+                            min-width: 120px
+                            margin-right: 0px !important
+                            margin-bottom: 0.5rem
+                .blog-info
+                    .icon
+                        margin-right: 1rem
+            .blog-info 
+                padding: 0.5rem 0rem
+                margin: 0.75rem 0rem
+                img
+                    width: 20px
+                p
+                    font-weight: 400
+                    font-size: 14px
+                    line-height: 21px
+                    color: #21A5A0
+
+            .blog-title
+                font-weight: 600
+                font-size: 20px
+                line-height: 26px
+                color: #000B33
+
+            .text
+                font-weight: 400
+                font-size: 16px
+                line-height: 26px
+                color: #000B33
+                opacity: 0.8
+
+            .link
+                text-decoration: none
+                font-weight: 600
+                font-size: 16px
+                line-height: 24px
+                color: #E16252
+                display: flex
+                align-items: center
+                justify-content: flex-start
+                img
+                    height: 10px
+                    width: 15px
+                    margin-left: 0.5rem
+                &:hover
+                    color: darken(#E16252, 10 )
+
+
+    .blog-list-ul
+        list-style: none
+        li::before
+            content: "\2022"
+            content: ""
+            background-color: #E05A49
+            border-radius: 50%
+            font-weight: bold
+            display: inline-block
+            width: 8px
+            height: 8px
+            margin-left: -2rem
+            margin-right: 0.75rem
+
+        li
+            margin-bottom: 0.5rem
+            font-weight: 400
+            font-size: 16px
+            line-height: 26px
+            color: #000B33
+            opacity: 0.8
+            &:last-child
+                margin-bottom: 0rem
+
+    .social-icons
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        a
+            text-decoration: none
+            display: block
+            margin-right: 1rem
+            width: 15px
+            svg
+                path
+                    fill: #000B33
+            &:hover
+                svg
+                    path
+                        fill: $light-color !important
+
+        a, svg, path
+            transition: all 0.2s ease
+
+    .blog-sidebar
+        @media screen and (max-width: 576px)
+            opacity: 0
+            visibility: hidden
+            transform: scale(0)
+            height: 0px
+            &.active
+                opacity: 1
+                visibility: visible
+                transform: scale(1)
+                height: auto
+
+
+        .card
+            padding: 1rem 1.2rem
+
+
+        .heading
+            font-weight: 600
+            font-size: 20px
+            line-height: 26px
+            color: #000B33
+
+        .categories
+            a
+                display: block
+                font-weight: 400
+                font-size: 16px
+                line-height: 26px
+                color: #000B33
+                opacity: 0.8
+                text-decoration: none
+                padding: 0.5rem 0rem
+                transition: all 0.2s ease
+                &:hover
+                    color: $light-color
+
+        .posts
+
+            .post-item
+                @media screen and (min-width: 576px) and (max-width: 992px)
+                    flex-direction: column !important
+                    align-items: flex-start !important
+                    gap: 0.2rem
+                @media screen and (max-width: 333px)
+                    flex-direction: column !important
+                    align-items: flex-start !important
+                    gap: 0.2rem
+                gap: 1rem
+                img
+                    width: 120px
+                    height: 100px
+                    // object-fit: cover
+                    // background: #C4C4C4
+                    border-radius: 10px
+            a.heading
+                font-weight: 600
+                font-size: 14px
+                line-height: 21px
+                color: #000B33
+                opacity: 0.8
+                margin-bottom: 0rem
+                text-decoration: none
+                display: block
+                transition: all 0.2s
+                &:hover
+                    color: $light-color
+
+            .date
+                font-size: 14px
+                font-weight: 400
+                line-height: 21px
+                color: #000B33
+                opacity: 0.8
+                margin-bottom: 0rem
+
+
+
+        .tags
+            .tag
+                font-weight: 600
+                font-size: 16px
+                line-height: 24px
+                text-align: center
+                color: #010C16
+                opacity: 0.8
+                padding: 7px 16px
+                background: #FFFFFF
+                border: 0.5px solid #010C16
+                border-radius: 3px
+                display: inline-block
+                margin-bottom: 0.5rem
+                margin-right: 0.2rem
+                cursor: pointer
+                transition: all 0.2s ease
+                &.active,
+                &:hover
+                    color: $light
+                    background: $light-color
+                    border-color: $light-color
+                    &:hover
+                        background: darken($light-color, 10)
+                        
+
+
+        .search-box
+            background: #FFFFFF
+            box-shadow: 0px 4px 40px rgba(43, 89, 255, 0.08)
+            border-radius: 5px
+            padding: 0.5rem 1rem
+            margin-bottom: 2rem
+            margin-top: 1rem
+
+            input
+                border: none
+                outline: none
+                font-weight: 400
+                font-size: 16px
+                line-height: 26px
+                color: #000B33
+                opacity: 0.5
+
+
+
+
+    .next-prev-section
+        padding: 4rem 0rem
+
+        .d-flex
+            gap: 1rem
+        .next, 
+        .prev
+            width: 50%
+        .label
+            color: $primary-color
+            font-weight: 400
+            font-size: 16px
+            line-height: 26px
+        .link
+            font-weight: 600
+            font-size: 14px
+            line-height: 21px
+            color: #000B33
+            opacity: 0.8
+            text-decoration: none
+            transition: all 0.2s ease
+            &:hover
+                color: $light-color
+
+        .next
+            a
+                text-align: right
+                
+
+    .comments-section
+        .label
+            font-weight: 600
+            font-size: 20px
+            line-height: 26px
+            color: #21A5A0
+
+        .reply-comment
+            @media screen and (min-width: 600px)
+                margin-left: 4rem
+
+            .profile
+                margin-left: 2rem
+                min-width: 50px !important
+                max-width: 50px
+                height: 50px !important
+                @media screen and (max-width: 600px)
+                    min-width: 40px !important
+                    height: 40px !important
+                
+
+        .comment-item
+            gap: 1.5rem
+            padding: 1.2rem 0rem
+
+            @media screen and (max-width: 600px)
+                gap: 0.5rem 
+
+            .profile
+                min-width: 80px
+                height: 80px
+                border-radius: 50%
+                overflow: hidden
+                @media screen and (max-width: 600px)
+                    min-width: 40px
+                    height: 40px
+                img
+                    width: 100%
+                    height: 100%
+
+            .comment
+                .text
+                    font-weight: 400
+                    font-size: 16px
+                    line-height: 26px
+                    color: #000B33
+                    opacity: 0.8
+
+                p.name
+                    font-weight: 600
+                    font-size: 14px
+                    line-height: 21px
+                    color: #000B33
+                    margin-bottom: 0rem
+
+                p.date
+                    font-size: 14px
+                    line-height: 21px
+                    color: #000B33
+                    opacity: 0.7
+
+                .btn
+                    font-weight: 600
+                    font-size: 14px
+                    line-height: 21px
+                    color: #000B33
+                    opacity: 0.7
+                    border: none
+                    &:hover,
+                    &.active
+                        color: $light-color
+
+
+    
+    .leave-comment-section
+        .label
+            font-weight: 600
+            font-size: 20px
+            line-height: 26px
+            color: #21A5A0
+
+        p.text
+            font-weight: 400
+            font-size: 14px
+            line-height: 21px
+            color: #000B33
+            opacity: 0.8
+            margin-bottom: 1.5rem
+
+        form
+            input
+                height: 55px
+
+            textarea
+                min-height: 260px
+
+            input, textarea
+                width: 100%
+                background: #F5F8FF
+                outline: none
+                border-radius: 5px
+                margin-bottom: 1rem
+                font-weight: 400
+                font-size: 14px
+                line-height: 21px
+                color: #000B33
+                opacity: 0.8
+                border: none
+                padding: 1rem 1.5rem
+
+            .btn-submit
+                width: 180px
+                color: $light
+                background-color: $light-color
+                font-weight: 600
+                font-size: 16px
+                line-height: 24px
+                text-align: center
+                &:hover
+                    background: darken($light-color, 10)
+
+
+    #navigationToggleBtn
+        display: none
+        @media screen and (max-width: 576px)
+            display: block !important
+            opacity: 1
+            visibility: visible
+            transform: scale(1)
+            height: auto
+            .icon
+                display: none
+                &.active
+                    display: block

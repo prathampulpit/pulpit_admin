@@ -1,0 +1,104 @@
+.rider-app-section
+    padding: 8rem 0rem
+    background: #E8F5F4
+    position: relative
+    @media screen and (max-width: 768px)
+        margin-top: -65px
+    @media screen and (min-width: 768px)
+        margin-top: -55px
+
+    .wing
+        position: absolute
+        top: 0
+        left: 0
+        @media screen and (max-width: 768px)
+            width: 200px
+        
+
+    .eclipse,
+    .star
+        position: absolute
+
+    .eclipse.e1
+        top: 20%
+        left: 20%
+    .eclipse.e2
+        bottom: 20%
+        left: 10%
+        @media screen and (max-width: 768px)
+            bottom: 8%
+
+    .star.e1
+        top: 15%
+        right: 2%
+    .star.e2
+        bottom: 35%
+        left: 40%
+        @media screen and (max-width: 768px)
+            bottom: 40%
+            left: 60%
+
+
+    .title
+        font-weight: 600
+        font-size: 48px
+        line-height: 120%
+        color: #462D4E
+
+    .features-grid
+        display: grid
+
+        @media screen and (min-width: 768px)
+            grid-template-rows: 1fr 1fr
+            grid-template-columns: 1fr 1fr
+
+        .grid-item
+            padding: 2rem
+
+                
+            @media screen and (max-width: 768px)
+                display: grid
+                grid-template-columns: 80px 1fr
+
+                img.icon
+                    grid-row-start: 1
+                    grid-row-end: 3
+
+            @media screen and (max-width: 768px)
+                &.lines
+                    .line1, .line2
+                        display: none
+            @media screen and (min-width: 768px)
+                &.lines
+                    position: relative
+                    .line1
+                        display: block !important
+                        position: absolute
+                        right: 0
+                        top: 0
+                    .line2
+                        display: block !important
+                        position: absolute
+                        left: 50%
+                        bottom: 0
+                        transform: translateX(-50%)
+
+
+
+            &.active
+                background: $light
+                box-shadow: 20px 24px 94px rgba(0, 0, 0, 0.05)
+                border-radius: 20px
+            img.icon
+                width: 52px
+                margin-bottom: 0.75rem
+            p.bold
+                font-weight: 500
+                font-size: 20px
+                line-height: 120%
+                color: #462D4E
+            p.text
+                font-weight: 400
+                font-size: 18px
+                line-height: 145%
+                color: #7B6A83
