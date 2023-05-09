@@ -21,18 +21,17 @@ use Password;
 use Session;
 use URL;
 
-class OffersController extends Controller
-{
+class OffersController extends Controller {
+
     protected $offersRepository;
 
     public function __construct(
-        OffersRepository $offersRepository
+            OffersRepository $offersRepository
     ) {
         $this->offersRepository = $offersRepository;
     }
 
-    public function index()
-    {
+    public function index() {
         $user = Auth::user();
         $role_id = $user['role_id'];
         $role_id_arr = explode(",", $role_id);
@@ -47,8 +46,7 @@ class OffersController extends Controller
         }
     }
 
-    public function index_json(Request $request)
-    {
+    public function index_json(Request $request) {
         $user = Auth::user();
         if (request('per_page') == 'all') {
             $countcompany = [];
@@ -62,8 +60,7 @@ class OffersController extends Controller
         return $users;
     }
 
-    public function createEdit($panel, $id = null)
-    {
+    public function createEdit($panel, $id = null) {
         $admin = Auth::user();
         $role_id = $admin['role_id'];
 
@@ -94,8 +91,7 @@ class OffersController extends Controller
         }
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $user = Auth::user();
         $role_id = $user['role_id'];
         $admin_id = $user['id'];
@@ -104,22 +100,34 @@ class OffersController extends Controller
         $user['id'] = $request->get('id', null);
         $user['offer_type'] = $request->get('offer_type');
         $user['status'] = '1';
-        $user['offer_for'] = $request->get('offer_for');;
+        $user['offer_for'] = $request->get('offer_for');
+
         $user['updated_at'] = date("Y-m-d H:i:s");
         if (empty($request->get('id'))) {
             $user['created_at'] = date("Y-m-d H:i:s");
         }
         if ($request->has('logo')) {
 
+            /*if (!empty($user['id'])) {
+                 
+                $offerStoreObject = Offers::where('id', $user['id'])->first();
+                
+                if (!empty($offerStoreObject->offer_url)) {
+                    $path = $offerStoreObject->offer_url; 
+                    echo $path = str_replace(env('S3_BUCKET_URL')."/", '', $path); 
+                    Storage::disk('s3')->delete($path);
+                }
+            }*/
+ 
             $file = $request->file('logo');
-            /* echo "<pre>";
-            print_r($file);
-            exit; */
+            $file_extention =  $file->getClientOriginalExtension();
+             
             $document_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
             $filePath = 'images/' . $document_file_name;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $fullpath = env('S3_BUCKET_URL') . '/' . $filePath;
             $user['offer_url'] = $fullpath;
+            $user['file_extention'] =$file_extention;
         }
         $this->offersRepository->save($user);
 
@@ -128,12 +136,11 @@ class OffersController extends Controller
         } else {
             $message = 'Offer Added Successfully';
         }
-
+ 
         return redirect(route('admin.offers.index', ['panel' => Session::get('panel')]))->withMessage($message);
     }
 
-    public function show($panel, $id)
-    {
+    public function show($panel, $id) {
         $user = Auth::user();
         $role_id = $user['role_id'];
 
@@ -155,8 +162,7 @@ class OffersController extends Controller
     /**
      * Change user status
      */
-    public function changeStatus(Request $request)
-    {
+    public function changeStatus(Request $request) {
         $id = $request->get('id');
         $user = User::find($id);
         $user->user_status = $request->get('user_status');
@@ -169,8 +175,7 @@ class OffersController extends Controller
     /**
      * Reset attempt
      */
-    public function resetAttempt(Request $request)
-    {
+    public function resetAttempt(Request $request) {
         $id = $request->get('user_id');
         $user = User::find($id);
         $user->login_attempt = $request->get('login_attempt');
@@ -183,8 +188,7 @@ class OffersController extends Controller
     /**
      * USSD Status
      */
-    public function changeUssdStatus(Request $request)
-    {
+    public function changeUssdStatus(Request $request) {
         $id = $request->get('user_id');
         $ussd_enable = $request->get('ussd_enable');
         $user = User::find($id);
@@ -195,21 +199,19 @@ class OffersController extends Controller
         echo "success";
     }
 
-    public function toggleStatus($panel, $id)
-    {
+    public function toggleStatus($panel, $id) {
         $result = $this->offersRepository->toggleStatus($id);
         return (int) $result;
     }
 
-    public function toggleReferalStatus($panel, $id)
-    {
+    public function toggleReferalStatus($panel, $id) {
         $result = $this->offersRepository->toggleReferalStatus($id);
         return (int) $result;
     }
 
-    public function destroy($panel, $id)
-    {
+    public function destroy($panel, $id) {
         $result = $this->offersRepository->updateStatus($id);
         return (int) $result;
     }
+
 }

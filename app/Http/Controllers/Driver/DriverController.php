@@ -1301,10 +1301,7 @@ class DriverController extends Controller {
 
             $strings = explode(' ', $permanent_address);
 
-            function extract_numbers($string) {
-                return preg_match_all('/(?<!\d)\d{5,6}(?!\d)/', $string, $match) ? $match[0] : [];
-            }
-
+            
             $pincode = '';
             foreach ($strings as $string) {
                 $pincode = (extract_numbers($string));

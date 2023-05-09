@@ -27,6 +27,6 @@ class Offers extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'offer_url', 'status','offer_for', 'created_at', 'updated_at', 'offer_type'
+        'offer_url', 'status','offer_for', 'created_at', 'updated_at', 'offer_type', 'file_extention'
     ];
 }

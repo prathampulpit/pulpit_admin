@@ -50,7 +50,12 @@ Add Ad Offer
                                     <div class="col-lg-12">
                                         <p class="mg-b-10">{{ @trans('offers.logo') }}: <span class="tx-danger">*</span></p>
                                         <div class="mg-b-10" id="fnWrapper">
-                                            <input type="file" name="logo" id="logo" class="dropify" data-height="200" @if(!$id) required="" @else data-default-file="{{$data->offer_url}}" @endif/>
+                                            <input type="file" 
+                                                   name="logo" 
+                                                   accept=".png, .jpg, .jpeg, .svg, .mp4"
+                                                   id="logo" 
+                                                   class="dropify" 
+                                                   data-height="200" @if(!$id) required="" @else data-default-file="{{$data->offer_url}}" @endif/>
                                         </div>
                                     </div>
                                 </div>
@@ -135,8 +140,8 @@ function submitEditProfile(){
 
 
 <!-- Internal Fileuploads js-->
-<script src="{{asset('assets/plugins/fileuploads/js/fileupload.js') }}"></script>
-<script src="{{asset('assets/plugins/fileuploads/js/file-upload.js') }}"></script>
+<!--<script src="{{asset('assets/plugins/fileuploads/js/fileupload.js') }}"></script>
+<script src="{{asset('assets/plugins/fileuploads/js/file-upload.js') }}"></script>-->
 
 <!-- InternalFancy uploader js-->
 <script src="{{asset('assets/plugins/fancyuploder/jquery.ui.widget.js') }}"></script>

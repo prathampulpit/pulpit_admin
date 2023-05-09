@@ -818,7 +818,7 @@ User Details
                                 <div class="">
 
                                     <div class="row row-sm">
-                                         
+
                                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 text-center">
                                             <h6 class="text-center">Profile Image</h6>
                                             <div class="image-div">
@@ -1545,7 +1545,7 @@ User Details
                             <!--<a href="<?= url(Session::get('panel') . '/vehicles/create') ?>/<?= $user->id ?>">
                                 <button type="submit" class="btn btn-default text-right btn-sm" style="float: right;background-color: #15a39a;color:white;">Add</button>
                             </a>-->
-                            <a href="javascript:;" class="btn btn-default text-right btn-sm" data-user-id="{{$user->id}}" style="float: right;background-color: #15a39a;color:white;">
+                            <a href="javascript:;" class="btn btn-default text-right btn-sm VehicleManage" data-user-id="{{$user->id}}" style="float: right;background-color: #15a39a;color:white;">
                                 Add
                             </a>
 
@@ -1561,7 +1561,7 @@ User Details
                     <div class="card-body p-0 border p-0 rounded-10" style="margin-top: 5px;">
                         <div class="p-4" >
                             <div class="row">
-                                 
+
                                 <div class="col-md-12 accordion-header" id="panelsStayOpen-heading{{$according}}">
                                     <button class="accordion-button btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" 
                                             data-bs-target="#panelsStayOpen-collapse{{$according}}" 
@@ -1569,10 +1569,10 @@ User Details
                                         {{$row->vehicle_number}}
                                     </button> 
                                     <div style="float:right">
-                                            <a href="{{url('/super-admin/travel/')}}/verify_vehicle_document/{{$row->id}}/1" class="btn btn-success btn-sm agent_document_verify"  >Approve All</a>
-                                            <a href="{{url('/super-admin/travel/')}}/verify_vehicle_document/{{$row->id}}/0" class="btn btn-danger btn-sm agent_document_verify"  >Reject All</a>
+                                        <a href="{{url('/super-admin/travel/')}}/verify_vehicle_document/{{$row->id}}/1" class="btn btn-success btn-sm agent_document_verify"  >Approve All</a>
+                                        <a href="{{url('/super-admin/travel/')}}/verify_vehicle_document/{{$row->id}}/0" class="btn btn-danger btn-sm agent_document_verify"  >Reject All</a>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div id="panelsStayOpen-collapse{{$according}}"  class="row accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading{{$according}}" style="margin-top: 10px;">
@@ -1735,7 +1735,7 @@ User Details
                                                     $extension = $Infos['extension'];
                                                     if (strtolower($extension) != 'pdf') {
                                                         ?>
-                                                                                                                                                                                                                                            <!--<img alt="docuemtn image" class="img-thumbnail image-class" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')">-->
+                                                                                                                                                                                                                                                <!--<img alt="docuemtn image" class="img-thumbnail image-class" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')">-->
 
                                                         <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')"><i class="fa fa-eye"></i></button>                                                                                     
 
@@ -1941,11 +1941,11 @@ User Details
                                         {{ $d['first_name'] . ' ' . $d['last_name'] }}
                                     </button>
                                     <div style="float:right">
-                                            <a href="javascript:;" class="btn btn-default text-right btn-sm EditDriverManage"  data-user-id="{{$user->id}}"  data-id="{{$d['id']}}" style="background-color: #15a39a;color:white;">Edit</a>
-                                            <a href="{{url('/super-admin/travel/')}}/verify_driver_document/{{$d['id']}}/1" class="btn btn-success btn-sm agent_document_verify"  >Approve All</a>
-                                            <a href="{{url('/super-admin/travel/')}}/verify_driver_document/{{$d['id']}}/0" class="btn btn-danger btn-sm agent_document_verify"  >Reject All</a>
+                                        <a href="javascript:;" class="btn btn-default text-right btn-sm EditDriverManage"  data-user-id="{{$user->id}}"  data-id="{{$d['id']}}" style="background-color: #15a39a;color:white;">Edit</a>
+                                        <a href="{{url('/super-admin/travel/')}}/verify_driver_document/{{$d['id']}}/1" class="btn btn-success btn-sm agent_document_verify"  >Approve All</a>
+                                        <a href="{{url('/super-admin/travel/')}}/verify_driver_document/{{$d['id']}}/0" class="btn btn-danger btn-sm agent_document_verify"  >Reject All</a>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div id="panelsStayOpen-collapse{{$d['id']}}"  class="row accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading{{$d['id']}}" style="margin-top: 10px;">
@@ -2281,27 +2281,27 @@ User Details
 $i = 1;
 foreach ($drivers as $d) {
     ?>
-                                                                                                                                                          <tr>
-                                                                                                                                                              <td><?= $i ?></td>
-                                                                                                                                                              <td>{{ $d['first_name'] . ' ' . $d['last_name'] }}
-                                                                                                                                                              </td>
-                                                                                                                                                              <td>{{ $d['mobile_numebr'] }}</td>
-                                                                                                                                                              <td>{{ $d['adhar_card_no'] }}</td>
-                                                                                                                                                              <td>{{ $d['driving_licence_no'] }}</td>
-                                                                                                                                                              <td>{{ $d['driving_licence_expiry_date'] }}</td>
-                                                                                                                                                              <td>{{ $d['street_address'] }}</td>
-                                                                                                                                                              <td class="act-btn">
-                                                                                                                                                                  <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
-                                                                                                                                                                     title="View" class="btn-sm btn-view">
-                                                                                                                                                                      <i class="material-icons">remove_red_eye</i>
-                                                                                                                                                                  </a>
-                                                                                                                                                                  {{-- <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
-                                                                                                                                                                                                                                                                  title="View" class="btn-sm btn-view">
-                                                                                                                                                                  <i class="material-icons">edit</i>
-                                                                                                                                                                                              </a> --}}
-                                                                                                                                                                      </td>
-                                                                                                                                                                      
-                                                                                                                                                          </tr>
+                                                                                                                                                              <tr>
+                                                                                                                                                                  <td><?= $i ?></td>
+                                                                                                                                                                  <td>{{ $d['first_name'] . ' ' . $d['last_name'] }}
+                                                                                                                                                                  </td>
+                                                                                                                                                                  <td>{{ $d['mobile_numebr'] }}</td>
+                                                                                                                                                                  <td>{{ $d['adhar_card_no'] }}</td>
+                                                                                                                                                                  <td>{{ $d['driving_licence_no'] }}</td>
+                                                                                                                                                                  <td>{{ $d['driving_licence_expiry_date'] }}</td>
+                                                                                                                                                                  <td>{{ $d['street_address'] }}</td>
+                                                                                                                                                                  <td class="act-btn">
+                                                                                                                                                                      <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
+                                                                                                                                                                         title="View" class="btn-sm btn-view">
+                                                                                                                                                                          <i class="material-icons">remove_red_eye</i>
+                                                                                                                                                                      </a>
+                                                                                                                                                                      {{-- <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
+                                                                                                                                                                                                                                                                      title="View" class="btn-sm btn-view">
+                                                                                                                                                                      <i class="material-icons">edit</i>
+                                                                                                                                                                                                  </a> --}}
+                                                                                                                                                                          </td>
+                                                                                                                                                                          
+                                                                                                                                                              </tr>
     <?php
     $i++;
 }
@@ -2942,9 +2942,6 @@ crossorigin="anonymous"></script>
 
 <script>
 
-                    $('#close_driver_modal').on('click', function(){
-                    $('#DriverManageModal').modal('hide');
-                    });
                     function getCities() {
                     var state = $("#stateid").find(":selected").text();
                     // alert(state);
@@ -2992,103 +2989,9 @@ crossorigin="anonymous"></script>
                     });
                     }
 
-                    $('body').on('click', '#driving_license', function(){
-                    $('#driving_license').html('Searching..');
-                    license_no = $('#license_no').val();
-                    driver_bod = $('#driver_bod').val();
-                    $('.manage_driver_save_buttton').prop('disabled', true);
-                    $.ajaxSetup({
-                    headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                    });
-                    $('#errorMessageDrivePage').html('');
-                    $.ajax({
-                    type: 'POST',
-                            url: "{{ route('admin.driver.getDrivingLicenceDetails',['panel' => Session::get('panel')]) }}",
-                            data: {
-                            'license_no': license_no,
-                                    'driver_bod': driver_bod,
-                            },
-                            dataType: 'json',
-                            success: function(response) {
-                            $('.manage_driver_save_buttton').prop('disabled', false);
-                            $('#driving_license').html('Search');
-                            if (response.status == "error"){
-                            $('#errorMessageDrivePage').html('<span class="text-danger">' + response.message);
-                            return false
-                            }
-                            $('#street_address').val(response.street_address);
-                            $('#first_name').val(response.first_name);
-                            $('#last_name').val(response.last_name);
-                            $('#father_name').val(response.father_name);
-                            $('#issue_date').val(response.issue_date);
-                            $('#expiry_date').val(response.expiry_date);
-                            $('#pincode').val(response.pincode);
-                            $('#state_id').val(response.state);
-                            $('#city_id').val(response.city);
-                            if (response.gender == "Female"){
-                            $('#gender_female').prop('checked', 'true');
-                            $('#gender_male').prop('checked', 'false');
-                            } else{
-                            $('#gender_female').prop('checked', '');
-                            $('#gender_male').prop('checked', 'true');
-                            }
-
-                            console.log(response);
-                            }, error:function(xhr, status, error) {
-                    console.log(error);
-                    $('.manage_driver_save_buttton').prop('disabled', false);
-                    $('#driving_license').html('Search');
-                    $('#errorMessageDrivePage').html('<span class="text-danger">' + error);
-                    }
-
-
-//                    
-                    });
-                    });</script> 
+</script> 
 <script type="text/javascript">
 
-    $('body').on('click', '.DriverManage', function(){
-            user_id = $(this).attr('data-user-id');
-           
-            var siteurl = "{{ route('admin.driver.manageDriver',['panel' => Session::get('panel')]) }}";
-            $.ajax({
-                url: siteurl,
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "id": user_id
-                },
-                success: function(response) {
-                     $('#DriverManageModal').modal('show');
-                    $('#DriverPageForm').html(response);
-                }, error:function(response){
-                    alert('Something went wrong!')
-                }
-            });
-       });
-    $('body').on('click', '.EditDriverManage', function(){
-            user_id = $(this).attr('data-user-id');
-            driver_id = $(this).attr('data-id');
-            
-            $('#DriverManageModal').modal('show');
-            var siteurl = "{{ route('admin.driver.manageDriver',['panel' => Session::get('panel')]) }}";
-            $.ajax({
-                url: siteurl,
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "user_id": user_id,
-                    "driver_id" : driver_id
-                },
-                success: function(response) {
-                    $('#DriverPageForm').html(response);
-                }, error:function(response){
-                
-                }
-            });
-       });
     function confirmModal() {
     var id = $('#user_reset_id').val();
     $('#user_id').val(id);
@@ -3747,6 +3650,106 @@ crossorigin="anonymous"></script>
         function HistoryShow() {
         $(".history_show").toggle();
         }
+    </script>
 
+    <script>
+
+        $('#close_driver_modal').on('click', function(){
+        $('#DriverManageModal').modal('hide');
+        });
+        $('body').on('click', '#driving_license', function(){
+        $('#driving_license').html('Searching..');
+        license_no = $('#license_no').val();
+        driver_bod = $('#driver_bod').val();
+        $('.manage_driver_save_buttton').prop('disabled', true);
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $('#errorMessageDrivePage').html('');
+        $.ajax({
+        type: 'POST',
+                url: "{{ route('admin.driver.getDrivingLicenceDetails',['panel' => Session::get('panel')]) }}",
+                data: {
+                'license_no': license_no,
+                        'driver_bod': driver_bod,
+                },
+                dataType: 'json',
+                success: function(response) {
+                $('.manage_driver_save_buttton').prop('disabled', false);
+                $('#driving_license').html('Search');
+                if (response.status == "error"){
+                $('#errorMessageDrivePage').html('<span class="text-danger">' + response.message);
+                return false
+                }
+                $('#street_address').val(response.street_address);
+                $('#first_name').val(response.first_name);
+                $('#last_name').val(response.last_name);
+                $('#father_name').val(response.father_name);
+                $('#issue_date').val(response.issue_date);
+                $('#expiry_date').val(response.expiry_date);
+                $('#pincode').val(response.pincode);
+                $('#state_id').val(response.state);
+                $('#city_id').val(response.city);
+                if (response.gender == "Female"){
+                $('#gender_female').prop('checked', 'true');
+                $('#gender_male').prop('checked', 'false');
+                } else{
+                $('#gender_female').prop('checked', '');
+                $('#gender_male').prop('checked', 'true');
+                }
+
+                console.log(response);
+                }, error:function(xhr, status, error) {
+        console.log(error);
+        $('.manage_driver_save_buttton').prop('disabled', false);
+        $('#driving_license').html('Search');
+        $('#errorMessageDrivePage').html('<span class="text-danger">' + error);
+        }
+
+
+//                    
+        });
+        });
+  
+        $('body').on('click', '.DriverManage', function(){
+        user_id = $(this).attr('data-user-id');
+        var siteurl = "{{ route('admin.driver.manageDriver',['panel' => Session::get('panel')]) }}";
+        $.ajax({
+        url: siteurl,
+                type: "POST",
+                data: {
+                "_token": "{{ csrf_token() }}",
+                        "id": user_id
+                },
+                success: function(response) {
+                $('#DriverManageModal').modal('show');
+                $('#DriverPageForm').html(response);
+                }, error:function(response){
+        alert('Something went wrong!')
+        }
+        });
+        });
+        $('body').on('click', '.EditDriverManage', function(){
+        user_id = $(this).attr('data-user-id');
+        driver_id = $(this).attr('data-id');
+        $('#DriverManageModal').modal('show');
+        var siteurl = "{{ route('admin.driver.manageDriver',['panel' => Session::get('panel')]) }}";
+        $.ajax({
+        url: siteurl,
+                type: "POST",
+                data: {
+                "_token": "{{ csrf_token() }}",
+                        "user_id": user_id,
+                        "driver_id" : driver_id
+                },
+                success: function(response) {
+                $('#DriverPageForm').html(response);
+                }, error:function(response){
+
+        }
+        });
+        });
     </script>
     @endpush

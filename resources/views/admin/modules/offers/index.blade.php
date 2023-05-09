@@ -81,7 +81,8 @@
                                                 <tbody>
                                                     <tr v-for="(item,index) in items">
                                                         <td>@{{ index + from }}</td>
-                                                        <td><img v-bind:src="item.offer_url" width='50'/></td>
+                                                        <td v-if="item.file_extention != 'mp4'"><a :href="item.offer_url" target="blank"><img  v-bind:src="item.offer_url" width='50'/></a></td>
+                                                        <td v-if="item.file_extention == 'mp4'"><a :href="item.offer_url" target="blank"><video v-bind:src="item.offer_url" width='50'/></a></td>
                                                         <td v-if="item.offer_type == '0'">Home</td>
                                                         <td v-else-if="item.offer_type == '1'">Trip</td>
                                                         <td v-else>Cab</td>

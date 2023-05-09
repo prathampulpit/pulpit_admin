@@ -75,7 +75,7 @@ class OffersRepository extends BaseRepository
         $order = request('order', 'desc');
 
         $query = $this->offers::whereRaw('1=1');
-        $query->select('id', 'offer_url', 'offer_type', 'offer_for','status');
+        $query->select('*');
 
         $query->where('status', '!=', '2');
         if (isset($params['offer_url'])) {

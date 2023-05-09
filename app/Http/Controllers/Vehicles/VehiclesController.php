@@ -30,23 +30,22 @@ use URL;
 use Illuminate\Support\Facades\Response;
 use DB;
 
-class VehiclesController extends Controller
-{
+class VehiclesController extends Controller {
+
     protected $vehiclesRepository;
 
     public function __construct(
-        VehiclesRepository $vehiclesRepository
+            VehiclesRepository $vehiclesRepository
     ) {
         $this->vehiclesRepository = $vehiclesRepository;
     }
 
-    public function vehicleBrandModels(Request $request)
-    {
+    public function vehicleBrandModels(Request $request) {
         $user_id = $request->vehicle_id;
         $vehicle = array();
-        if($user_id){
+        if ($user_id) {
             $vehicle['user_id'] = $user_id;
-        }else{
+        } else {
             $vehicle['user_id'] = $request->user_id;
         }
         $vehicle['vehicle_number'] = $request->vehicle_number;
@@ -66,7 +65,7 @@ class VehiclesController extends Controller
 
         $puc_exp_date = str_replace('/', '-', $request->puc_exp_date);
         $vehicle['puc_exp_date'] = $puc_exp_date;
-        
+
         $vehicle['registration_year'] = $request->registration_year;
         if ($request->hasFile('rc_front_url')) {
             $file = $request->file('rc_front_url');
@@ -75,7 +74,7 @@ class VehiclesController extends Controller
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $vehicle['rc_front_url'] = env('S3_BUCKET_URL') . $filePath;
         } else {
-            if($user_id){
+            if ($user_id) {
                 $vehicle['rc_front_url'] = "";
             }
         }
@@ -86,7 +85,7 @@ class VehiclesController extends Controller
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $vehicle['rc_back_url'] = env('S3_BUCKET_URL') . $filePath;
         } else {
-            if($user_id){
+            if ($user_id) {
                 $vehicle['rc_back_url'] = "";
             }
         }
@@ -96,9 +95,9 @@ class VehiclesController extends Controller
             $driving_license_back_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
             $filePath = "/" . $driving_license_back_file_name;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
-             $vehicle['insurance_doc_url'] = env('S3_BUCKET_URL') . $filePath;
-        } else {    
-            if($user_id){
+            $vehicle['insurance_doc_url'] = env('S3_BUCKET_URL') . $filePath;
+        } else {
+            if ($user_id) {
                 $vehicle['insurance_doc_url'] = "";
             }
         }
@@ -110,7 +109,7 @@ class VehiclesController extends Controller
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $vehicle['permit_doc_url'] = env('S3_BUCKET_URL') . $filePath;
         } else {
-            if($user_id){
+            if ($user_id) {
                 $vehicle['permit_doc_url'] = "";
             }
         }
@@ -122,11 +121,11 @@ class VehiclesController extends Controller
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $vehicle['fitness_doc_url'] = env('S3_BUCKET_URL') . $filePath;
         } else {
-            if($user_id){
+            if ($user_id) {
                 $vehicle['fitness_doc_url'] = "";
             }
         }
-        
+
         if ($request->hasFile('puc_doc_url')) {
             $file = $request->file('puc_doc_url');
             $adhar_card = rand('111', '999') . time() . $file->getClientOriginalName();
@@ -134,7 +133,7 @@ class VehiclesController extends Controller
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $vehicle['puc_doc_url'] = env('S3_BUCKET_URL') . $filePath;
         } else {
-            if($user_id){
+            if ($user_id) {
                 $vehicle['puc_doc_url'] = "";
             }
         }
@@ -146,18 +145,18 @@ class VehiclesController extends Controller
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $vehicle['agreement_doc_url'] = env('S3_BUCKET_URL') . $filePath;
         } else {
-            if($user_id){
+            if ($user_id) {
                 $vehicle['agreement_doc_url'] = "";
             }
         }
-        if($user_id){
+        if ($user_id) {
             $message = 'Vehicle Added Successfully...';
             $data = Vehicles::create($vehicle);
-        }else{
-            if($request->id){
+        } else {
+            if ($request->id) {
                 $data = Vehicles::where('id', $request->id)->update($vehicle);
                 $data = Vehicles::where('id', $request->id)->first();
-            }else{
+            } else {
                 $data = Vehicles::where('user_id', $request->vehicle_id)->update($vehicle);
                 $data = Vehicles::where('user_id', $request->vehicle_id)->first();
             }
@@ -168,9 +167,9 @@ class VehiclesController extends Controller
             $document_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
             $filePath = "/" . $document_file_name;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $front= env('S3_BUCKET_URL') . $filePath;
-            if($request->id){
-                VehiclePhotoMapping::where([['vehicle_id', $request->id],['vehicle_photos_view_master_id',1]])->delete();
+            $front = env('S3_BUCKET_URL') . $filePath;
+            if ($request->id) {
+                VehiclePhotoMapping::where([['vehicle_id', $request->id], ['vehicle_photos_view_master_id', 1]])->delete();
             }
             $vehicleMapping = new VehiclePhotoMapping;
             $vehicleMapping->vehicle_id = $data->id;
@@ -186,8 +185,8 @@ class VehiclesController extends Controller
             $filePath = "/" . $driving_license_front_file_name;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $back = env('S3_BUCKET_URL') . $filePath;
-            if($request->id){
-                VehiclePhotoMapping::where([['vehicle_id', $request->id],['vehicle_photos_view_master_id',2]])->delete();
+            if ($request->id) {
+                VehiclePhotoMapping::where([['vehicle_id', $request->id], ['vehicle_photos_view_master_id', 2]])->delete();
             }
             $vehicleMapping = new VehiclePhotoMapping;
             $vehicleMapping->vehicle_id = $data->id;
@@ -203,8 +202,8 @@ class VehiclesController extends Controller
             $filePath = "/" . $driving_license_back_file_name;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $desktop = env('S3_BUCKET_URL') . $filePath;
-            if($request->id){
-                VehiclePhotoMapping::where([['vehicle_id', $request->id],['vehicle_photos_view_master_id',3]])->delete();
+            if ($request->id) {
+                VehiclePhotoMapping::where([['vehicle_id', $request->id], ['vehicle_photos_view_master_id', 3]])->delete();
             }
             $vehicleMapping = new VehiclePhotoMapping;
             $vehicleMapping->vehicle_id = $data->id;
@@ -220,8 +219,8 @@ class VehiclesController extends Controller
             $filePath = "/" . $pan_card;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $left = env('S3_BUCKET_URL') . $filePath;
-            if($request->id){
-                VehiclePhotoMapping::where([['vehicle_id', $request->id],['vehicle_photos_view_master_id',4]])->delete();
+            if ($request->id) {
+                VehiclePhotoMapping::where([['vehicle_id', $request->id], ['vehicle_photos_view_master_id', 4]])->delete();
             }
             $vehicleMapping = new VehiclePhotoMapping;
             $vehicleMapping->vehicle_id = $data->id;
@@ -237,8 +236,8 @@ class VehiclesController extends Controller
             $filePath = "/" . $adhar_card;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
             $right = env('S3_BUCKET_URL') . $filePath;
-            if($request->id){
-                VehiclePhotoMapping::where([['vehicle_id', $request->id],['vehicle_photos_view_master_id',5]])->delete();
+            if ($request->id) {
+                VehiclePhotoMapping::where([['vehicle_id', $request->id], ['vehicle_photos_view_master_id', 5]])->delete();
             }
             $vehicleMapping = new VehiclePhotoMapping;
             $vehicleMapping->vehicle_id = $data->id;
@@ -253,9 +252,9 @@ class VehiclesController extends Controller
             $permit_doc_url_name = rand('111', '999') . time() . $file->getClientOriginalName();
             $filePath = "/" . $permit_doc_url_name;
             Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $interior= env('S3_BUCKET_URL') . $filePath;
-            if($request->id){
-                VehiclePhotoMapping::where([['vehicle_id', $request->id],['vehicle_photos_view_master_id',6]])->delete();
+            $interior = env('S3_BUCKET_URL') . $filePath;
+            if ($request->id) {
+                VehiclePhotoMapping::where([['vehicle_id', $request->id], ['vehicle_photos_view_master_id', 6]])->delete();
             }
             $vehicleMapping = new VehiclePhotoMapping;
             $vehicleMapping->vehicle_id = $data->id;
@@ -267,56 +266,49 @@ class VehiclesController extends Controller
 
         if ($request->vehicle_id) {
             $userData = User::where('id', $request->vehicle_id)->first();
-            if($userData){
-                if($userData->user_type_id == 2){
+            if ($userData) {
+                if ($userData->user_type_id == 2) {
                     return redirect(route('admin.agent.show', ['panel' => Session::get('panel'), 'id' => $request->vehicle_id]))->withMessage($message);
-                }elseif ($userData->user_type_id == 3) {
+                } elseif ($userData->user_type_id == 3) {
                     return redirect(route('admin.travel.show', ['panel' => Session::get('panel'), 'id' => $request->vehicle_id]))->withMessage($message);
-                }else{
+                } else {
                     return redirect(route('admin.register.show', ['panel' => Session::get('panel'), 'id' => $request->vehicle_id]))->withMessage($message);
                 }
-            }else{
+            } else {
                 return redirect(route('admin.register.show', ['panel' => Session::get('panel'), 'id' => $request->vehicle_id]))->withMessage($message);
             }
-            
         } else {
             return redirect(route('admin.vehicles.index', ['panel' => Session::get('panel')]))->withMessage($message);
         }
-        
-
     }
-    public function vehicleBrandModelsSelect(Request $request)
-    {
-        
-        try{
+
+    public function vehicleBrandModelsSelect(Request $request) {
+
+        try {
             // dd($request->all());
             // $model1 = VehicleBrands::where('id',$request->brand_id)->first();
-            $model = VehicleBrandModels::where('brand_id',$request->brand_id)->get();
+            $model = VehicleBrandModels::where('brand_id', $request->brand_id)->get();
             // dd($model);
             return Response::json(array('success' => true, 'model' => $model));
-
         } catch (\Throwable $th) {
             return Response::json(array('success' => 408));
         }
-        
     }
-    public function vehicleTypeBrandSelect(Request $request)
-    {
-        
-        try{
+
+    public function vehicleTypeBrandSelect(Request $request) {
+
+        try {
             // dd($request->all());
             // $model1 = VehicleBrands::where('id',$request->brand_id)->first();
-            $model = VehicleBrandModels::where('vehicle_type_id',$request->type_id)->join('vehicle_brands','vehicle_brand_models.brand_id','vehicle_brands.id')->select('vehicle_brands.id as id','vehicle_brands.name as name')->groupBy('id')->get();
+            $model = VehicleBrandModels::where('vehicle_type_id', $request->type_id)->join('vehicle_brands', 'vehicle_brand_models.brand_id', 'vehicle_brands.id')->select('vehicle_brands.id as id', 'vehicle_brands.name as name')->groupBy('id')->get();
             // dd($model);
             return Response::json(array('success' => true, 'model' => $model));
-
         } catch (\Throwable $th) {
             return Response::json(array('success' => 408));
         }
-        
     }
-    public function index($panel,Request $request, $param = null)
-    {
+
+    public function index($panel, Request $request, $param = null) {
         $user = Auth::user();
         $role_id = $user['role_id'];
         $role_id_arr = explode(",", $role_id);
@@ -327,26 +319,25 @@ class VehiclesController extends Controller
         $state_id = $request->state_id;
         $city_id = $request->city_id;
         $vehicle_type_id = $request->vehicle_type_id;
-        if(isset($request->city_id)){
-            $state = States::where('id',$state_id)->first(); 
-            if(!empty($state)){
-                $cities = Cities::where('stateCode',$state->isoCode)->get();
-            }else{
+        if (isset($request->city_id)) {
+            $state = States::where('id', $state_id)->first();
+            if (!empty($state)) {
+                $cities = Cities::where('stateCode', $state->isoCode)->get();
+            } else {
                 $cities = Cities::all();
             }
-        }else{
+        } else {
             $cities = Cities::all();
         }
-         $vehicle_types = VehicleTypes::all();
+        $vehicle_types = VehicleTypes::all();
         if (in_array("5", $role_id_arr) || $user_role == 'administrator') {
-            return view('admin.modules.vehicles.index', compact('param','vehicle_types','vehicle_type_id','state_id','states','cities','city_id'));
+            return view('admin.modules.vehicles.index', compact('param', 'vehicle_types', 'vehicle_type_id', 'state_id', 'states', 'cities', 'city_id'));
         } else {
             abort(403);
         }
     }
 
-    public function index_json($panel, Request $request, $param = null)
-    {
+    public function index_json($panel, Request $request, $param = null) {
         $user = Auth::user();
         if (request('per_page') == 'all') {
             $countcompany = [];
@@ -363,8 +354,7 @@ class VehiclesController extends Controller
         return $users;
     }
 
-    public function createEdit($panel, $id = null)
-    {
+    public function createEdit($panel, $id = null) {
         $admin = Auth::user();
         $role_id = $admin['role_id'];
 
@@ -386,12 +376,12 @@ class VehiclesController extends Controller
             $vehicleBrands = VehicleBrands::where('status', '=', '1')->get();
             $vehicleId = '';
             $vehicle = DB::table('vehicle_photos_view_master')
-            // ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
-            // ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.vehicle_photos_view_master_id','vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.id')
-            // ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
-            ->get();
+                    // ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
+                    // ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.vehicle_photos_view_master_id','vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.id')
+                    // ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
+                    ->get();
             $vehicle_doc_type = [];
-            if($vehicle){
+            if ($vehicle) {
                 $vehicle_doc_type = DB::table('vehicle_photos_view_master')->get();
             }
             return view('admin.modules.vehicles.store', [
@@ -409,8 +399,7 @@ class VehiclesController extends Controller
         }
     }
 
-    public function create($panel, $id = null)
-    {
+    public function create($panel, $id = null) {
         $admin = Auth::user();
         $role_id = $admin['role_id'];
 
@@ -432,10 +421,10 @@ class VehiclesController extends Controller
             }
             $vehicleBrands = VehicleBrands::where('status', '=', '1')->get();
             $vehicle = DB::table('vehicle_photo_mapping')
-            ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
-            ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.image_url_status','vehicle_photo_mapping.vehicle_photos_view_master_id', 'vehicle_photo_mapping.id')
-            ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
-            ->get();
+                    ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
+                    ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.vehicle_photos_view_master_id', 'vehicle_photo_mapping.id')
+                    ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
+                    ->get();
             return view('admin.modules.vehicles.store', [
                 'data' => $data,
                 'id' => $user_id,
@@ -450,17 +439,15 @@ class VehiclesController extends Controller
         }
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         // dd($request->all());
         $user = Auth::user();
         $role_id = $user['role_id'];
         $admin_id = $user['id'];
-        $vehicle = Vehicles::where('id',$request->get('vehicle_id'))->first();
+        $vehicle = Vehicles::where('id', $request->get('vehicle_id'))->first();
         $user = array();
         $user['id'] = $request->get('id', null);
-        if($vehicle)
-        {
+        if ($vehicle) {
             $user['user_id'] = $vehicle->user_id;
         }
         $user['name'] = $request->get('name');
@@ -484,8 +471,7 @@ class VehiclesController extends Controller
         return redirect(route('admin.vehicles.index', ['panel' => Session::get('panel')]))->withMessage($message);
     }
 
-    public function show($panel, $id)
-    {
+    public function show($panel, $id) {
         $user = Auth::user();
         $role_id = $user['role_id'];
 
@@ -498,12 +484,12 @@ class VehiclesController extends Controller
         $user = $this->vehiclesRepository->getByParams($params);
         //echo "<pre>"; print_r($user); exit;
         $profile_path = config('custom.upload.user.profile');
-  
+
         $vehicle = DB::table('vehicle_photo_mapping')
-            ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
-            ->select('vehicle_photo_mapping.image_url', 'view_name', 'vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.id')
-            ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
-            ->get();
+                ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
+                ->select('vehicle_photo_mapping.image_url', 'view_name', 'vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.id')
+                ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
+                ->get();
 
         return view('admin.modules.vehicles.show', [
             'user' => $user, 'vehicle' => $vehicle, 'user_role' => $this->user_role
@@ -513,8 +499,7 @@ class VehiclesController extends Controller
     /**
      * Change user status
      */
-    public function changeStatus(Request $request)
-    {
+    public function changeStatus(Request $request) {
         $id = $request->get('id');
         $user = User::find($id);
         $user->user_status = $request->get('user_status');
@@ -527,8 +512,7 @@ class VehiclesController extends Controller
     /**
      * Reset attempt
      */
-    public function resetAttempt(Request $request)
-    {
+    public function resetAttempt(Request $request) {
         $id = $request->get('user_id');
         $user = User::find($id);
         $user->login_attempt = $request->get('login_attempt');
@@ -541,8 +525,7 @@ class VehiclesController extends Controller
     /**
      * USSD Status
      */
-    public function changeUssdStatus(Request $request)
-    {
+    public function changeUssdStatus(Request $request) {
         $id = $request->get('user_id');
         $ussd_enable = $request->get('ussd_enable');
         $user = User::find($id);
@@ -553,30 +536,26 @@ class VehiclesController extends Controller
         echo "success";
     }
 
-    public function toggleStatus($panel, $id)
-    {
+    public function toggleStatus($panel, $id) {
         $result = $this->vehiclesRepository->toggleStatus($id);
         return (int) $result;
     }
 
-    public function toggleReferalStatus($panel, $id)
-    {
+    public function toggleReferalStatus($panel, $id) {
         $result = $this->vehiclesRepository->toggleReferalStatus($id);
         return (int) $result;
     }
 
-    public function destroy($panel, $id)
-    {
+    public function destroy($panel, $id) {
         $result = $this->vehiclesRepository->updateStatus($id);
         return (int) $result;
     }
-    
-    
+
     //****************************************Manage**************************************************/
-    
-    public function manage(Request $request)
-    {
-        $id= $request->id;
+
+    public function manage(Request $request) {
+
+        $id = $request->id;
         $admin = Auth::user();
         $role_id = $admin['role_id'];
 
@@ -585,32 +564,72 @@ class VehiclesController extends Controller
         $role = \App\Models\Roles::find($role_id);
         $user_role = $role['slug'];
 
-             $params = [];
+        $params = [];
 
-            $data = null;
-            if ($id) {
-                $params = [];
-                $params['id'] = $id;
-                $params['vehicle_id'] = $id;
-                $params['response_type'] = "single";
-                $data = $this->vehiclesRepository->getByParams($params);
-            }
-            $vehicleBrands = VehicleBrands::where('status', '=', '1')->get();
+        $data = null;
+
+        if(!empty($request->vehicle_number)){
+            $vehicle_number = $request->vehicle_number;
+            $vehicle = $this->getVehicleLicenceDetails($vehicle_number); 
+            $vehicle = $vehicle['data']; 
+               
+        }else{
             $vehicle = DB::table('vehicle_photo_mapping')
-            ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
-            ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.image_url_status','vehicle_photo_mapping.vehicle_photos_view_master_id', 'vehicle_photo_mapping.id')
-            ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
-            ->get(); 
-            return view('admin.modules.vehicles.manage', [
-                'data' => $data,
-                'id' => $user_id,
-                'vehicle_id' => $id,
-                'vehicle' => $vehicle,
-                'user_role' => $user_role,
-                'admin' => $admin,
-                'vehicleBrands' => $vehicleBrands
-            ]);
+                ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
+                ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.vehicle_photos_view_master_id', 'vehicle_photo_mapping.id')
+                ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
+                ->get();
+        }
+        
+        
+        $vehicleBrands = VehicleBrands::where('status', '=', '1')->get();
          
+        return view('admin.modules.vehicles.manage', [
+            'data' => $data,
+            'id' => $user_id,
+            'vehicle_id' => $id,
+            'vehicle' => $vehicle,
+            'vehicle_number' => $vehicle_number,
+            'user_role' => $user_role,
+            'admin' => $admin,
+            'vehicleBrands' => $vehicleBrands
+        ]);
     }
-    
+
+    public function getVehicleLicenceDetails($vehicle_number) {
+
+ /*
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://vehicle-rc-information.p.rapidapi.com',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{"VehicleNumber":"' . $vehicle_number . '"}',
+            CURLOPT_HTTPHEADER => array(
+                'X-RapidAPI-Host: vehicle-rc-information.p.rapidapi.com',
+                'X-RapidAPI-Key: 333ee70dc4msh1fef8639ef8c6d9p144d24jsnc55290059f47',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $json_response = curl_exec($curl);
+        curl_close($curl);
+*/        
+        $json_response = '{"result":{"npermit_issued_by":null,"variant":null,"current_address":"VILL BHURA, TEH JHADOL, , Udaipur, Rajasthan, 313001","permit_no":"RJ2021-CC-7519B","status":"id_found","is_financed":null,"noc_details":null,"father_name":"GOVIND SINGH  RAJPUT","noc_valid_upto":null,"registration_date":"2012-08-17","colour":"SUPER WHITE","puc_number":"D38RJ27110967","registered_place":"UDAIPUR RTO","seating_capacity":"7","mv_tax_upto":"2013-02-16","norms_type":"EURO 3","body_type":"SALOON","owner_serial_number":"3","wheelbase":"2450","fitness_upto":"2024-04-25","financer":"","fuel_type":"DIESEL","puc_valid_upto":"2023-09-14","status_verification":null,"npermit_no":null,"npermit_upto":null,"manufacturer_model":"INNOVA 2.5G","permit_issue_date":null,"state":null,"cubic_capacity":"2494","vehicle_class":"LPV","insurance_validity":"2023-08-28","noc_issue_date":null,"owner_name":"SOHAN SINGH RAJPUT","manufacturer":"TOYOTA KIRLOSKAR MOTOR PVT LTD","vehicle_category":"LPV","permanent_address":"VILL BHURA, TEH JHADOL, , Udaipur, Rajasthan, 313001","insurance_name":"Oriental Insurance Co. Ltd.","owner_mobile_no":"","unladden_weight":"1655","chassis_number":"MBJ11JV4007347972~0712","engine_number":"2KDU080488","blacklist_status":null,"permit_validity_upto":"2026-12-08","permit_validity_from":null,"status_verfy_date":"2023-05-08","masked_name":false,"insurance_policy_no":"242594\/31\/2023\/394","m_y_manufacturing":"2012-07","number_of_cylinder":"4","gross_vehicle_weight":"2300","registration_number":"RJ27TA4151","sleeper_capacity":"0","standing_capacity":"0","status_message":null,"permit_type":"TEMPORARY PERMIT","noc_status":null}}'; 
+        $data = json_decode($json_response);
+     
+        return array('status'=>"success","data"=>$data->result);
+    }
+     public function save(Request $request) {
+         echo "<pre/>";
+         print_r($request->all());
+         
+     }
+
 }

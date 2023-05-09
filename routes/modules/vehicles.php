@@ -35,6 +35,9 @@ Route::group(
             // ajax
             Route::get('{panel}/vehicles/users_json', 'VehiclesController@index_json')->name('admin.vehicles.index_json');
 
-            Route::get('{panel}/vehicles/manage/{user_id}', 'VehiclesController@manage')->name('admin.vehicles.manage');
+            Route::get('{panel}/vehicles/manage', 'VehiclesController@manage')->name('admin.vehicles.manage');
+
+            Route::post('{panel}/vehicles/getVehicleLicenceDetails', 'VehiclesController@getVehicleLicenceDetails')->name('admin.vehicles.getVehicleLicenceDetails');
+            Route::post('{panel}/vehicles/save', 'VehiclesController@save')->name('admin.vehicles.save');
         }
 );
