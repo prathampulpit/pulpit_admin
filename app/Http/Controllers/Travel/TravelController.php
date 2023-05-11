@@ -1255,7 +1255,8 @@ class TravelController extends Controller {
                 })->where('cab_post.user_id', $id)->where('vehicles.status', '1')->get();
         //echo "<pre>"; print_r($cabs); exit;
 
-        $user_work_profiles_for_traveller = UserWorkProfile::where('user_id', $id)->where('status', 1)->where('user_type_id', 4)->get()->pluck('profile_id')->toArray();
+        $user_work_profiles_for_traveller = UserWorkProfile::where('user_id', $id)->where('user_type_id', 4)->get()->pluck('profile_id')->toArray();
+         
         $drivers = Drivers::whereIn('drivers.id', $user_work_profiles_for_traveller)
                 ->select('drivers.*', 'drivers.id as driver_id')
                 ->get();

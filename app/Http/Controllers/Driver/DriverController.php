@@ -1132,46 +1132,67 @@ class DriverController extends Controller {
         $year_of_experience = $request->get('year_of_experience');
 
         $usertype = 4;
-       
-        if ($request->has('logo')) {
-            $file = $request->file('logo');
-            $document_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
-            $filePath = "/" . $document_file_name;
-            Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $agent_logo = env('S3_BUCKET_URL') . $filePath;
+
+       /* if ($request->has('logo')) {
+          try { 
+                $file = $request->file('logo');
+                $document_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+                $filePath = "/" . $document_file_name;
+                Storage::disk('s3')->put($filePath, file_get_contents($file));
+                $agent_logo = env('S3_BUCKET_URL') . $filePath;
+              } catch (\Throwable $th) {
+
+              $agent_logo = "";
+            }
         } else {
             $agent_logo = "";
-        }
+        }*/
 
         if ($request->has('driving_license_front')) {
-            $file = $request->file('driving_license_front');
-            $driving_license_front_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
-            $filePath = "/" . $driving_license_front_file_name;
-            Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $driving_license_front = env('S3_BUCKET_URL') . $filePath;
+            try {
+                $file = $request->file('driving_license_front');
+                $driving_license_front_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+                $filePath = "/" . $driving_license_front_file_name;
+                Storage::disk('s3')->put($filePath, file_get_contents($file));
+                $driving_license_front = env('S3_BUCKET_URL') . $filePath;
+            } catch (\Throwable $th) {
+
+                $driving_license_front = "";
+            }
         } else {
             $driving_license_front = "";
         }
 
         if ($request->has('driving_license_back')) {
-            $file = $request->file('driving_license_back');
-            $driving_license_back_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
-            $filePath = "/" . $driving_license_back_file_name;
-            Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $driving_license_back = env('S3_BUCKET_URL') . $filePath;
+            try {
+                $file = $request->file('driving_license_back');
+                $driving_license_back_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+                $filePath = "/" . $driving_license_back_file_name;
+                Storage::disk('s3')->put($filePath, file_get_contents($file));
+                $driving_license_back = env('S3_BUCKET_URL') . $filePath;
+            } catch (\Throwable $th) {
+
+                $driving_license_back = "";
+            }
         } else {
             $driving_license_back = "";
         }
 
         if ($request->has('police_verification')) {
-            $file = $request->file('police_verification');
-            $police_verification = rand('111', '999') . time() . $file->getClientOriginalName();
-            $filePath = "/" . $police_verification;
-            Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $police_verification_url = env('S3_BUCKET_URL') . $filePath;
+            try {
+                $file = $request->file('police_verification');
+                $police_verification = rand('111', '999') . time() . $file->getClientOriginalName();
+                $filePath = "/" . $police_verification;
+                Storage::disk('s3')->put($filePath, file_get_contents($file));
+                $police_verification_url = env('S3_BUCKET_URL') . $filePath;
+            } catch (\Throwable $th) {
+
+                $police_verification_url = "";
+            }
         } else {
             $police_verification_url = "";
         }
+
 
         /* Agent & Travel Agency *///Driver Cum Owner  //Driver        $agent_id = $request->get('agent_id');
 
@@ -1197,14 +1218,31 @@ class DriverController extends Controller {
         $new->pincode = $pin_code;
         $new->year_of_experience = $year_of_experience;
         if (!empty($driving_license_front)) {
+             if (!empty($new->dl_front_url)) {
+                        $path = $new->dl_front_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+             }
+                    
+                    
             $new->dl_front_url = $driving_license_front;
         }
 
         if (!empty($driving_license_back)) {
+             if (!empty($new->dl_back_url)) {
+                        $path = $new->dl_back_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+             }
             $new->dl_back_url = $driving_license_back;
         }
 
         if (!empty($police_verification_url)) {
+             if (!empty($new->police_verification_url)) {
+                        $path = $new->police_verification_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+             }
             $new->police_verification_url = $police_verification_url;
         }
         $new->pan_card_url = "";
@@ -1212,7 +1250,7 @@ class DriverController extends Controller {
         $new->created_at = date("Y-m-d H:i:s");
         $new->updated_at = date("Y-m-d H:i:s");
         $new->save();
-         $profile_id = $new->id;
+        $profile_id = $new->id;
 
         $UserWorkProfile = UserWorkProfile::where('user_id', $user_id)->where('user_type_id', $usertype)->where('profile_id', $profile_id)->first();
 
@@ -1232,7 +1270,7 @@ class DriverController extends Controller {
             $message = 'Driver Added Successfully';
             echo json_encode(array('status' => true, 'message' => $message));
         }
- 
+
         return redirect()->back();
     }
 
@@ -1242,10 +1280,15 @@ class DriverController extends Controller {
         $driving_license_no = $request->license_no;
         $driver_bod = date('d-m-Y', strtotime($request->driver_bod));
 
-//        $driving_license_no = 'KL2019820001295';
-//        $driver_bod = '03-05-1963';
-
-
+        $checkExist = Drivers::where('driving_licence_no', $driving_license_no)->count();
+        if ($checkExist >= 1) {
+            $json = array(
+                'status' => "error",
+                'message' => "Licence Number already exist!"
+            );
+            echo json_encode($json);
+            die();
+        }
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://driving-license-verification1.p.rapidapi.com/DL/DLDetails',
@@ -1299,22 +1342,11 @@ class DriverController extends Controller {
                 $last_name = !empty($name[1]) ? $name[1] : '';
             }
 
-            $strings = explode(' ', $permanent_address);
+            $getCityStateDetails = \App\Models\Settings::getPincode($permanent_address);
 
-            
-            $pincode = '';
-            foreach ($strings as $string) {
-                $pincode = (extract_numbers($string));
-
-                if (!empty($pincode[0])) {
-                    $pincode = $pincode[0];
-                    break;
-                }
-            }
-
-            $getCityStateDetails = DB::table('pincodes')->where('Pincode', $pincode)->first();
             $state = !empty($getCityStateDetails->state) ? $getCityStateDetails->state : '';
             $city = !empty($getCityStateDetails->city) ? $getCityStateDetails->city : '';
+            $pincode = !empty($getCityStateDetails->pincode) ? $getCityStateDetails->pincode : '';
 
             $json = array(
                 'status' => "success",
@@ -1336,7 +1368,7 @@ class DriverController extends Controller {
     public function manageDriver(Request $request) {
 
         $user = Auth::user();
- 
+
         $states = states::all();
         $cities = Cities::all();
         $brands = VehicleBrands::where('status', '1')->get();
@@ -1344,8 +1376,7 @@ class DriverController extends Controller {
         $user_id = $request->user_id;
         $driver_id = $request->driver_id;
         $data = Drivers::find($driver_id);
-        
-        
+
         $years = array("2020", "2021", "2022", "2023", "2024", "2025");
         return view('admin.modules.driver.manage', [
             'user' => $user,
@@ -1354,8 +1385,7 @@ class DriverController extends Controller {
             'brands' => $brands,
             'data' => $data,
             'user_id' => $user_id,
-            'id'=>$driver_id
-             
+            'id' => $driver_id
         ]);
     }
 

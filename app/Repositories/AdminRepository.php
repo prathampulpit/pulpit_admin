@@ -78,7 +78,7 @@ class AdminRepository extends BaseRepository
 
         $query = $this->user::whereRaw('1=1');
         $query->select(DB::raw("CONVERT(users.id, CHAR) as user_id"), 'users.id', 'users.first_name', 'users.last_name', 'users.mobile_number', 'users.emailid', 'users.role_id');
- //       $query->where('type', '=', 'super_admin');
+        $query->where('type', '=', 'super_admin');
         $query->where('id', '!=', '1');
         $query->where('is_deleted', 0);
 

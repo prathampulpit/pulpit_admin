@@ -108,16 +108,14 @@ class OffersController extends Controller {
         }
         if ($request->has('logo')) {
 
-            /*if (!empty($user['id'])) {
-                 
-                $offerStoreObject = Offers::where('id', $user['id'])->first();
-                
+            if (!empty($user['id'])) { 
+                $offerStoreObject = Offers::where('id', $user['id'])->first(); 
                 if (!empty($offerStoreObject->offer_url)) {
                     $path = $offerStoreObject->offer_url; 
-                    echo $path = str_replace(env('S3_BUCKET_URL')."/", '', $path); 
+                    $path = str_replace(env('S3_BUCKET_URL')."/", '', $path); 
                     Storage::disk('s3')->delete($path);
                 }
-            }*/
+            }
  
             $file = $request->file('logo');
             $file_extention =  $file->getClientOriginalExtension();

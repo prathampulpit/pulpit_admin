@@ -123,8 +123,8 @@ class DeleteUserController extends Controller
         $id = $request->id;
         $user = Auth::user();
         $user_id = $user['id'];
-
-        if ($user_id != '1') {
+  
+        if ($user->type != 'super_admin') {
             abort(403);
         }
         $data = UserWorkProfile::where('user_id',$id)->first();

@@ -22,7 +22,7 @@ Route::group(
         Route::post('{panel}/deleteuser/changeStatus', 'DeleteUserController@changeStatus')->name('admin.deleteuser.changesStatus');
 
         // ajax
-        Route::get('{panel}/admin_json', 'DeleteUserController@index_json')->name('admin.admin.index_json');
+     //   Route::get('{panel}/admin_json', 'DeleteUserController@index_json')->name('admin.admin.index_json');
 
         //Change password
         Route::get('{panel}/change-password', 'DeleteUserController@showChangePasswordForm')->name('admin.changePassword');

@@ -21,9 +21,9 @@ class VehiclesRepository extends BaseRepository
      * @return Collection
      */
     public function getByParams($params)
-    {
+    { 
         $users = $this->vehicles::whereRaw('1=1');
-        $users->select('vehicles.id', 'users.first_name', 'users.last_name','users.mobile_number', 'vehicles.brand_id', 'vehicles.vehicle_number', 'vehicles.status', 'vehicle_brands.name as brand_name', 'users.first_name as name', 'vehicle_brand_models.name as model_name', 'users.mobile_number', 'vehicle_types.name as vehicle_type_name', 'vehicle_fuel_type.name as vehicle_fuel_type_name', 'vehicles.rc_front_url', 'vehicles.rc_back_url', 'vehicles.insurance_doc_url', 'vehicles.permit_doc_url', 'vehicles.fitness_doc_url', 'vehicles.puc_doc_url', 'vehicles.agreement_doc_url', 'vehicles.registration_year', 'vehicles.rc_front_url_status', 'vehicles.rc_back_url_status', 'vehicles.insurance_doc_url_status', 'vehicles.permit_doc_url_status', 'vehicles.fitness_doc_url_status', 'vehicles.puc_doc_url_status', 'vehicles.agreement_doc_url_status', 'vehicles.insurance_exp_date', 'vehicles.permit_exp_date', 'vehicles.fitness_exp_date', 'vehicles.puc_exp_date', 'vehicles.user_id');
+        $users->select('vehicles.id', 'users.first_name', 'users.last_name','users.mobile_number', 'vehicles.brand_id', 'vehicles.vehicle_number', 'vehicles.status', 'vehicle_brands.name as brand_name', 'users.first_name as name', 'vehicle_brand_models.name as model_name', 'users.mobile_number', 'vehicle_types.name as vehicle_type_name', 'vehicle_fuel_type.name as vehicle_fuel_type_name', 'vehicles.rc_front_url', 'vehicles.rc_back_url', 'vehicles.insurance_doc_url', 'vehicles.permit_doc_url', 'vehicles.fitness_doc_url', 'vehicles.puc_doc_url', 'vehicles.agreement_doc_url', 'vehicles.registration_year', 'vehicles.rc_front_url_status', 'vehicles.rc_back_url_status', 'vehicles.insurance_doc_url_status', 'vehicles.permit_doc_url_status', 'vehicles.fitness_doc_url_status', 'vehicles.puc_doc_url_status', 'vehicles.agreement_doc_url_status', 'vehicles.insurance_exp_date', 'vehicles.permit_exp_date', 'vehicles.fitness_exp_date', 'vehicles.puc_exp_date', 'vehicles.user_id', 'vehicles.*');
         $users->leftJoin('vehicle_brands', 'vehicles.brand_id', '=', 'vehicle_brands.id');
         $users->leftJoin('vehicle_brand_models', 'vehicles.model_id', '=', 'vehicle_brand_models.id');
         $users->leftJoin('users', 'vehicles.user_id', '=', 'users.id');
@@ -91,7 +91,7 @@ class VehiclesRepository extends BaseRepository
         } else {
             $records = $users->get();
         }
-
+      
         return $records;
     }
 

@@ -195,7 +195,7 @@ Vehicle Detail
                                                     @if(!empty($user->rc_front_url))
                                                     <?php 
                                                     $Infos = pathinfo($user->rc_front_url);
-                                                    $extension = !empty($Infos['extension']) ? $Infos['extension'] : '';;
+                                                    $extension = !empty($Infos['extension']) ? $Infos['extension'] : '';
                                                     if( strtolower($extension) != 'pdf'){
                                                     ?>
                                                         <img alt="docuemtn image" class="img-thumbnail image-class" src="{{$user->rc_front_url}}" onclick='getImage("{{$user->rc_front_url}}","RC Front")'>

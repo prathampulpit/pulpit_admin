@@ -30,10 +30,13 @@ Login
                                 <img src="{{ asset('assets/img/brand/logo.png') }}"
                                     class=" d-lg-none header-brand-img text-left float-left mb-4" alt="logo">
                                 <div class="clearfix"></div>
-                                <form id="frmLogin" method="post"
-                                    action="{{ route('validate-login',['panel' => $panel])}}">
+<!--                                <form id="frmLogin" method="post"
+                                    action="{{ route('validate-login',['panel' => $panel])}}" id="loginForm">-->
+                                <form id="frmLogin" method="post" action="#" id="loginForm">
                                     @csrf
-
+                                   
+                                        
+                                     
                                     @if(Session::get('fail_message', false))
                                     @component('admin.components.fail_message')
                                     {{ Session::get('fail_message') }}
@@ -48,7 +51,10 @@ Login
 
                                     <h5 class="text-left mb-2">Signin to Your Account</h5>
                                     <p class="mb-4 text-muted tx-13 ml-0 text-left">&nbsp;</p>
-
+                                    <p><span class="text-danger" id="errorMessage"></span>
+                                        <span class="text-success" id="successMessage"></span>
+                                        <input type="hidden" name="session_id" id="session_id"> 
+                                    </p>
                                     <div class="form-group text-left">
                                         <label class="">@lang('app.email')</label>
                                         <input name="username" id="username" type="text" placeholder="Email"
@@ -58,6 +64,7 @@ Login
                                             {{ $errors->first('username') }}
                                         </label>
                                         @endif
+                                        
                                     </div>
 
                                     <div class="form-group text-left">
@@ -70,13 +77,27 @@ Login
                                         </label>
                                         @endif
                                     </div>
-
+                                    <div class="row"  id="otpMessageDiv" style="display:none;">
+                                        <div class="col-md-4">
+                                            <div class="form-group text-left" >
+                                                <label class="">OTP</label>
+                                                <input name="otp" id="otp" type="text" placeholder="OTP" class="form-control"/>
+                                                <label id="otpMessage" class="text-danger"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">    
+                                                <a href="{{ url('/',['panel' => $panel])}}" class="btn btn-primary btn-sm" style="margin-top:30px;">Reset</a>
+                                        </div>
+                                    </div>
                                     <!-- <button class="btn ripple btn-main-primary btn-block">Sign In</button> -->
                                     <div class="form-action mt-3">
                                         <!-- <button type="submit" class="btn ripple btn-main-primary btn-block login-btn">@lang('app.sign_in')</button> -->
-                                        <button type="submit" class="btn ripple btn-main-primary btn-block login-btn"
+                                        <!--<button type="submit" class="btn ripple btn-main-primary btn-block login-btn"
                                             id="load2"
-                                            data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading">@lang('app.sign_in')</button>
+                                            data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading">@lang('app.sign_in')</button> -->
+                                    <a type="submit" class="btn ripple btn-main-primary btn-block login-btn"
+                                            id="load2" style="color:white;"
+                                   data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-id="1">Login</a>
 
                                         {{-- @if (config('custom.auth.forgot_password'))
                                         <a href="{{ route('password-reset-form') }}"
@@ -101,6 +122,61 @@ Login
 @endsection
 
 @push('pageJs')
-{!! JsValidator::formRequest('App\Http\Requests\Auth\LoginRequest', '#frmLogin') !!}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>   
+
+
+
+ 
+<script>
+     $('body').on('click', '#load2', function(){
+            var siteurl = "{{ route('validate-login',['panel' => $panel])}}";
+            $('#errorMessage').html('');
+            $('#successMessage').html('');
+           
+            var otp = $('#otp').val();
+            var session_id = $('#session_id').val();
+            if(!otp && session_id){
+                $('#errorMessage').html("Please enter OTP!");
+                return false;
+            }
+             $.ajax({
+                url: siteurl,
+                        type: "POST",
+                        data: $("#frmLogin").serialize(),
+                        dataType:"json",
+                        success: function(response) {
+                          console.log("----");
+                          console.log(response);
+                          
+                            if(response.status == "error" || response.status == "Error" ||  response.status == "verifed_otp_error"){
+                                $('#errorMessage').html(response.message);
+                                
+                                 return false;
+                            }
+                            if(response.status == "otp_success"){
+                                $('#otpMessageDiv').show(); 
+                                $('#session_id').val(response.session_id);
+                                $('#successMessage').html(response.message);
+                                return false;
+                            }
+                         //     window.location.href="{{url('/')}}/super-admin/dashboard";
+                            if(response.status == "verifed_otp_success"){ // OTP Matched and Redirect
+                                $('#successMessage').html(response.message);
+                                 $('#session_id').val('');
+                               window.location.href="{{url('/')}}/super-admin/dashboard";
+
+                            }
+                        }, error:function(response){
+                              if( response.status === 422 ) {
+                                var errors = $.parseJSON(response.responseText);
+                                $('#errorMessage').html(errors.message)
+                                
+                            }
+                                 
+                }
+            }); 
+        });
+
+</script>
+
 @endpush

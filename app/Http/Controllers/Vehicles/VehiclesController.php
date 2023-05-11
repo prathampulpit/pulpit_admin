@@ -555,39 +555,40 @@ class VehiclesController extends Controller {
 
     public function manage(Request $request) {
 
+
         $id = $request->id;
+        $user_id = $request->user_id;
         $admin = Auth::user();
         $role_id = $admin['role_id'];
 
         $role_id_arr = explode(",", $role_id);
-        $user_id = '';
+
         $role = \App\Models\Roles::find($role_id);
         $user_role = $role['slug'];
 
         $params = [];
 
-        $data = null;
+        $vehicle_number = $request->vehicle_number;
 
-        if(!empty($request->vehicle_number)){
-            $vehicle_number = $request->vehicle_number;
-            $vehicle = $this->getVehicleLicenceDetails($vehicle_number); 
-            $vehicle = $vehicle['data']; 
-               
-        }else{
-            $vehicle = DB::table('vehicle_photo_mapping')
-                ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
-                ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.vehicle_photos_view_master_id', 'vehicle_photo_mapping.id')
-                ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
-                ->get();
+        if (!empty($request->vehicle_number)) {
+            $vehicle = $this->getVehicleLicenceDetails($vehicle_number);
+        } else {
+            $vehicleMapping = DB::table('vehicle_photo_mapping')
+                    ->join('vehicle_photos_view_master', 'vehicle_photos_view_master.id', '=', 'vehicle_photo_mapping.vehicle_photos_view_master_id')
+                    ->select('vehicle_photo_mapping.image_url', 'vehicle_photos_view_master.view_name', 'vehicle_photo_mapping.image_url_status', 'vehicle_photo_mapping.vehicle_photos_view_master_id', 'vehicle_photo_mapping.id')
+                    ->where('vehicle_photo_mapping.vehicle_id', '=', $id)
+                    ->get();
+            $vehicle = Vehicles::find($id);
+            $vehicle_number = !empty($vehicle->vehicle_number) ? $vehicle->vehicle_number : '';
+            $vehicle = array('status' => 'success', "data" => $vehicle, "message" => "Record found");
         }
-        
-        
+
+
         $vehicleBrands = VehicleBrands::where('status', '=', '1')->get();
-         
+
         return view('admin.modules.vehicles.manage', [
-            'data' => $data,
-            'id' => $user_id,
-            'vehicle_id' => $id,
+            'user_id' => $user_id,
+            'id' => $id,
             'vehicle' => $vehicle,
             'vehicle_number' => $vehicle_number,
             'user_role' => $user_role,
@@ -598,7 +599,7 @@ class VehiclesController extends Controller {
 
     public function getVehicleLicenceDetails($vehicle_number) {
 
- /*
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -620,16 +621,236 @@ class VehiclesController extends Controller {
 
         $json_response = curl_exec($curl);
         curl_close($curl);
-*/        
-        $json_response = '{"result":{"npermit_issued_by":null,"variant":null,"current_address":"VILL BHURA, TEH JHADOL, , Udaipur, Rajasthan, 313001","permit_no":"RJ2021-CC-7519B","status":"id_found","is_financed":null,"noc_details":null,"father_name":"GOVIND SINGH  RAJPUT","noc_valid_upto":null,"registration_date":"2012-08-17","colour":"SUPER WHITE","puc_number":"D38RJ27110967","registered_place":"UDAIPUR RTO","seating_capacity":"7","mv_tax_upto":"2013-02-16","norms_type":"EURO 3","body_type":"SALOON","owner_serial_number":"3","wheelbase":"2450","fitness_upto":"2024-04-25","financer":"","fuel_type":"DIESEL","puc_valid_upto":"2023-09-14","status_verification":null,"npermit_no":null,"npermit_upto":null,"manufacturer_model":"INNOVA 2.5G","permit_issue_date":null,"state":null,"cubic_capacity":"2494","vehicle_class":"LPV","insurance_validity":"2023-08-28","noc_issue_date":null,"owner_name":"SOHAN SINGH RAJPUT","manufacturer":"TOYOTA KIRLOSKAR MOTOR PVT LTD","vehicle_category":"LPV","permanent_address":"VILL BHURA, TEH JHADOL, , Udaipur, Rajasthan, 313001","insurance_name":"Oriental Insurance Co. Ltd.","owner_mobile_no":"","unladden_weight":"1655","chassis_number":"MBJ11JV4007347972~0712","engine_number":"2KDU080488","blacklist_status":null,"permit_validity_upto":"2026-12-08","permit_validity_from":null,"status_verfy_date":"2023-05-08","masked_name":false,"insurance_policy_no":"242594\/31\/2023\/394","m_y_manufacturing":"2012-07","number_of_cylinder":"4","gross_vehicle_weight":"2300","registration_number":"RJ27TA4151","sleeper_capacity":"0","standing_capacity":"0","status_message":null,"permit_type":"TEMPORARY PERMIT","noc_status":null}}'; 
+
+        //  $json_response = '{"result":{"npermit_issued_by":null,"variant":null,"current_address":"VILL BHURA, TEH JHADOL, , Udaipur, Rajasthan, 313001","permit_no":"RJ2021-CC-7519B","status":"id_found","is_financed":null,"noc_details":null,"father_name":"GOVIND SINGH  RAJPUT","noc_valid_upto":null,"registration_date":"2012-08-17","colour":"SUPER WHITE","puc_number":"D38RJ27110967","registered_place":"UDAIPUR RTO","seating_capacity":"7","mv_tax_upto":"2013-02-16","norms_type":"EURO 3","body_type":"SALOON","owner_serial_number":"3","wheelbase":"2450","fitness_upto":"2024-04-25","financer":"","fuel_type":"DIESEL","puc_valid_upto":"2023-09-14","status_verification":null,"npermit_no":null,"npermit_upto":null,"manufacturer_model":"INNOVA 2.5G","permit_issue_date":null,"state":null,"cubic_capacity":"2494","vehicle_class":"LPV","insurance_validity":"2023-08-28","noc_issue_date":null,"owner_name":"SOHAN SINGH RAJPUT","manufacturer":"TOYOTA KIRLOSKAR MOTOR PVT LTD","vehicle_category":"LPV","permanent_address":"VILL BHURA, TEH JHADOL, , Udaipur, Rajasthan, 313001","insurance_name":"Oriental Insurance Co. Ltd.","owner_mobile_no":"","unladden_weight":"1655","chassis_number":"MBJ11JV4007347972~0712","engine_number":"2KDU080488","blacklist_status":null,"permit_validity_upto":"2026-12-08","permit_validity_from":null,"status_verfy_date":"2023-05-08","masked_name":false,"insurance_policy_no":"242594\/31\/2023\/394","m_y_manufacturing":"2012-07","number_of_cylinder":"4","gross_vehicle_weight":"2300","registration_number":"RJ27TA4151","sleeper_capacity":"0","standing_capacity":"0","status_message":null,"permit_type":"TEMPORARY PERMIT","noc_status":null}}';
         $data = json_decode($json_response);
-     
-        return array('status'=>"success","data"=>$data->result);
+        $results = !empty($data->result) ? $data->result : '';
+        $status = !empty($data->error) ? 'error' : 'success';
+        $message = !empty($data->message) ? $data->message : '';
+        return array('status' => $status, "data" => $results, "message" => $message);
     }
-     public function save(Request $request) {
-         echo "<pre/>";
-         print_r($request->all());
-         
-     }
+
+    public function save(Request $request) {
+
+        $user_id = $request->user_id;
+        $id = $request->id;
+        $vehicle_id = $request->vehicle_id;
+        $vehicle_number = $request->vehicle_number;
+        $owner_name = $request->owner_name;
+        $owner_mobile_no = $request->owner_mobile_no;
+        $permit_no = $request->permit_no;
+        $puc_number = $request->puc_number;
+        $vehicle_type = $request->vehicle_type;
+        $brand_id = $request->brand_id;
+        $model_name = $request->model_name;
+        $vehicle_fuel_type = $request->vehicle_fuel_type;
+        $insurance_exp_date = $request->insurance_exp_date;
+        $permit_exp_date = $request->permit_exp_date;
+        $fitness_exp_date = $request->fitness_exp_date;
+        $puc_exp_date = $request->puc_exp_date;
+        $registration_year = $request->registration_year;
+        $city = $request->city;
+        $state = $request->state;
+        $pincode = $request->pincode;
+        $permantent_address = $request->street_address;
+        $current_address = $request->current_address;
+        if (empty($id)) {
+            $vehiclesObject = new Vehicles();
+        } else {
+            $vehiclesObject = Vehicles::find($id);
+        }
+        $vehiclesObject->user_id = $user_id;
+        $vehiclesObject->vehicle_number = $vehicle_number;
+        $vehiclesObject->owner_name = $owner_name;
+        $vehiclesObject->vehicle_type_id = $vehicle_type;
+        $vehiclesObject->brand_id = $brand_id;
+        $vehiclesObject->model_id = $model_name;
+        $vehiclesObject->fuel_type_id = $vehicle_fuel_type;
+        $vehiclesObject->insurance_exp_date = $insurance_exp_date;
+        $vehiclesObject->permit_exp_date = $permit_exp_date;
+        $vehiclesObject->fitness_exp_date = $fitness_exp_date;
+        $vehiclesObject->puc_exp_date = $puc_exp_date;
+        $vehiclesObject->registration_year = $registration_year;
+        $vehiclesObject->state = $state;
+        $vehiclesObject->city = $city;
+
+        $vehiclesObject->owner_mobile_no = $owner_mobile_no;
+        $vehiclesObject->permit_no = $permit_no;
+        $vehiclesObject->puc_number = $puc_number;
+        $vehiclesObject->pincode = $pincode;
+        $vehiclesObject->permantent_address = $permantent_address;
+        $vehiclesObject->current_address = $current_address;
+
+        if ($request->hasFile('rc_front_url')) {
+            $file = $request->file('rc_front_url');
+            $document_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $document_file_name;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $vehiclesObject->rc_front_url = env('S3_BUCKET_URL') . $filePath;
+        }
+        if ($request->hasFile('rc_back_url')) {
+            $file = $request->file('rc_back_url');
+            $driving_license_front_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $driving_license_front_file_name;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $vehiclesObject->rc_back_url = env('S3_BUCKET_URL') . $filePath;
+        }
+
+        $vehiclesObject->save();
+
+        $id = $vehiclesObject->id;
+        if ($request->hasFile('Front')) {
+            $file = $request->file('Front');
+            $document_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $document_file_name;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $front = env('S3_BUCKET_URL') . $filePath;
+
+            if ($id) {
+                $vehicle_image = VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 1]])->first();
+                if (!empty($vehicle_image)) {
+                    if (!empty($vehicle_image->image_url)) {
+                        echo $path = $vehicle_image->image_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+                    }
+                }
+                VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 1]])->delete();
+            }
+            $vehicleMapping = new VehiclePhotoMapping;
+            $vehicleMapping->vehicle_id = $id;
+            $vehicleMapping->vehicle_photos_view_master_id = 1;
+            $vehicleMapping->image_url = $front;
+            $vehicleMapping->image_url_status = 1;
+            $vehicleMapping->save();
+        }
+
+        if ($request->hasFile('Back')) {
+            $file = $request->file('Back');
+            $driving_license_front_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $driving_license_front_file_name;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $back = env('S3_BUCKET_URL') . $filePath;
+            if ($id) {
+                $vehicle_image = VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 2]])->first();
+                if (!empty($vehicle_image)) {
+                    if (!empty($vehicle_image->image_url)) {
+                        echo $path = $vehicle_image->image_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+                    }
+                }
+                VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 2]])->delete();
+            }
+            $vehicleMapping = new VehiclePhotoMapping;
+            $vehicleMapping->vehicle_id = $id;
+            $vehicleMapping->vehicle_photos_view_master_id = 2;
+            $vehicleMapping->image_url = $back;
+            $vehicleMapping->image_url_status = 1;
+            $vehicleMapping->save();
+        }
+
+        if ($request->hasFile('Desktop')) {
+            $file = $request->file('Desktop');
+            $driving_license_back_file_name = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $driving_license_back_file_name;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $desktop = env('S3_BUCKET_URL') . $filePath;
+            if ($id) {
+                $vehicle_image = VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 3]])->first();
+                if (!empty($vehicle_image)) {
+                    if (!empty($vehicle_image->image_url)) {
+                        echo $path = $vehicle_image->image_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+                    }
+                }
+                VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 3]])->delete();
+            }
+            $vehicleMapping = new VehiclePhotoMapping;
+            $vehicleMapping->vehicle_id = $id;
+            $vehicleMapping->vehicle_photos_view_master_id = 3;
+            $vehicleMapping->image_url = $desktop;
+            $vehicleMapping->image_url_status = 1;
+            $vehicleMapping->save();
+        }
+
+        if ($request->hasFile('Left')) {
+            $file = $request->file('Left');
+            $pan_card = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $pan_card;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $left = env('S3_BUCKET_URL') . $filePath;
+            if ($id) {
+                $vehicle_image = VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 4]])->first();
+                if (!empty($vehicle_image)) {
+                    if (!empty($vehicle_image->image_url)) {
+                        $path = $vehicle_image->image_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+                    }
+                }
+                $vehicle_image = VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 4]])->delete();
+            }
+            $vehicleMapping = new VehiclePhotoMapping;
+            $vehicleMapping->vehicle_id = $id;
+            $vehicleMapping->vehicle_photos_view_master_id = 4;
+            $vehicleMapping->image_url = $left;
+            $vehicleMapping->image_url_status = 1;
+            $vehicleMapping->save();
+        }
+
+        if ($request->hasFile('Right')) {
+            $file = $request->file('Right');
+            $adhar_card = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $adhar_card;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $right = env('S3_BUCKET_URL') . $filePath;
+            if ($id) {
+                $vehicle_image = VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 5]])->first();
+                if (!empty($vehicle_image)) {
+                    if (!empty($vehicle_image->image_url)) {
+                        echo $path = $vehicle_image->image_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+                    }
+                }
+                VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 5]])->delete();
+            }
+            $vehicleMapping = new VehiclePhotoMapping;
+            $vehicleMapping->vehicle_id = $id;
+            $vehicleMapping->vehicle_photos_view_master_id = 5;
+            $vehicleMapping->image_url = $right;
+            $vehicleMapping->image_url_status = 1;
+            $vehicleMapping->save();
+        }
+
+        if ($request->hasFile('Interior')) {
+            $file = $request->file('Interior');
+            $permit_doc_url_name = rand('111', '999') . time() . $file->getClientOriginalName();
+            $filePath = "/" . $permit_doc_url_name;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+            $interior = env('S3_BUCKET_URL') . $filePath;
+            if ($id) {
+                $vehicle_image = VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 6]])->first();
+                if (!empty($vehicle_image)) {
+                    if (!empty($vehicle_image->image_url)) {
+                        echo $path = $vehicle_image->image_url;
+                        $path = str_replace(env('S3_BUCKET_URL') . "/", '', $path);
+                        Storage::disk('s3')->delete($path);
+                    }
+                }
+                VehiclePhotoMapping::where([['vehicle_id', $id], ['vehicle_photos_view_master_id', 6]])->delete();
+            }
+            $vehicleMapping = new VehiclePhotoMapping;
+            $vehicleMapping->vehicle_id = $id;
+            $vehicleMapping->vehicle_photos_view_master_id = 6;
+            $vehicleMapping->image_url = $interior;
+            $vehicleMapping->image_url_status = 1;
+            $vehicleMapping->save();
+        }
+
+        return redirect('/super-admin/travel/show_v2/' . $user_id)->withMessage("Record saved successfully");
+    }
 
 }

@@ -31,14 +31,22 @@ Add Vehicle Brand Models
                             </div>
 
                             <form method="GET"
-                                  action="{{ route('admin.vehicles.manage', ['panel' => Session::get('panel')]) }}"
+                                  action="<?= url(Session::get('panel') . '/vehicles/manage') ?>?user_id=<?= $user_id ?>&id=<?= $id ?>"
                                   class="parsley-style-1" id="search_vehicle_form" name="search_vehicle_form" enctype="multipart/form-data">
+
+                                <input type="hidden" name="user_id" id="user_id" value="{{ $user_id }}">
+                                <input type="hidden" name="id" id="id" value="{{ $id }}">
+
+                                <input type="hidden" name="vehicle_id" id="vehicle_id" value="{{ $id }}">
+
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-6">
                                         <p class="mg-b-10">Vehicle Number</p>
                                         <input class="form-control" type="text" name="vehicle_number" id="vehicle_number"
                                                value="@if($vehicle_number){{ $vehicle_number }} @endif">
-                                        <div id="errorMessageVehiclePage"></div>
+                                        @if(!empty($vehicle['status'] =="error"))
+                                        <div id="errorMessageVehiclePage" class='text-danger'>{{$vehicle['message']}}</div>
+                                        @endif
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-6">
                                         <button type="button" name="search" id="search_vehicles" class="btn btn-primary " style="margin-top: 30px;">Search Vehicles</button>
@@ -48,34 +56,56 @@ Add Vehicle Brand Models
                             <hr/>
                             <form method="post"
                                   action="{{ route('admin.vehicles.save', ['panel' => Session::get('panel')]) }}"
-                                  class="parsley-style-1" id="selectForm2" name="selectForm2" enctype="multipart/form-data">
+                                  class="parsley-style-1"  enctype="multipart/form-data">
                                 @csrf
-                                @if ($id)
-                                <input type="hidden" name="user_id" id="user_id" value="{{ $data->user_id }}">
-                                <input type="hidden" name="id" id="id" value="{{ $data->id }}">
-                                @endif
-                                @if($vehicle_id)
-                                <input type="hidden" name="vehicle_id" id="vehicle_id" value="{{ $vehicle_id }}">
-                                @endif
 
+                                <input type="hidden" name="user_id" id="user_id" value="{{ $user_id }}">
+                                <input type="hidden" name="id" id="id" value="{{ $id }}">
+
+                                <input type="hidden" name="vehicle_id" id="vehicle_id" value="{{ $id }}">
 
 
                                 <?php
-                                
+                                $vehicle = !empty($vehicle['data']) ? $vehicle['data'] : [];
                                 $owner_name = !empty($vehicle->owner_name) ? $vehicle->owner_name : '';
                                 $owner_mobile_no = !empty($vehicle->owner_mobile_no) ? $vehicle->owner_mobile_no : '';
                                 $permit_no = !empty($vehicle->permit_no) ? $vehicle->permit_no : '';
                                 $puc_number = !empty($vehicle->puc_number) ? $vehicle->puc_number : '';
 
-                                $insurance_exp_date = $vehicle->insurance_validity;
-                                $permit_validity_upto = $vehicle->permit_validity_upto;
-                                $fitness_upto = $vehicle->fitness_upto;
-                                $puc_exp_date = $vehicle->puc_valid_upto;
-                                $registration_date = $vehicle->registration_date;
-                                $fuel_type = $vehicle->fuel_type;
-                                $street_address = $vehicle->permanent_address;
-                                $current_address = $vehicle->current_address;
-                                $getCityandStateData = App\Models\Settings::getPincode($street_address);
+                                $insurance_exp_date = !empty($vehicle->insurance_validity) ? $vehicle->insurance_validity : '';
+
+                                if (empty($insurance_exp_date)) {
+
+                                    $insurance_exp_date = !empty($vehicle->insurance_exp_date) ? $vehicle->insurance_exp_date : '';
+                                }
+                                $permit_validity_upto = !empty($vehicle->permit_validity_upto) ? $vehicle->permit_validity_upto : '';
+                                if (empty($permit_validity_upto)) {
+                                    $permit_validity_upto = !empty($vehicle->permit_exp_date) ? $vehicle->permit_exp_date : '';
+                                }
+                                $fitness_upto = !empty($vehicle->fitness_upto) ? $vehicle->fitness_upto : '';
+                                if (empty($fitness_upto)) {
+                                    $fitness_upto = !empty($vehicle->fitness_exp_date) ? $vehicle->fitness_exp_date : '';
+                                }
+                                $puc_exp_date = !empty($vehicle->puc_valid_upto) ? $vehicle->puc_valid_upto : '';
+                                if (empty($puc_exp_date)) {
+                                    $puc_exp_date = !empty($vehicle->puc_exp_date) ? $vehicle->puc_exp_date : '';
+                                }
+                                $registration_date = !empty($vehicle->registration_date) ? $vehicle->registration_date : '';
+                                if (empty($registration_date)) {
+                                    $registration_date = !empty($vehicle->registration_year) ? $vehicle->registration_year : '';
+                                }
+                                $fuel_type = !empty($vehicle->fuel_type) ? $vehicle->fuel_type : '';
+                                $fuel_type_id = 0;
+                                if (empty($fuel_type)) {
+
+                                    $fuel_type_id = !empty($vehicle->vehicle_type_id) ? $vehicle->vehicle_type_id : '';
+                                }
+                                $permanent_address = !empty($vehicle->permanent_address) ? $vehicle->permanent_address : '';
+                                if (empty($permanent_address)) {
+                                    $permanent_address = !empty($vehicle->permantent_address) ? $vehicle->permantent_address : '';
+                                }
+                                $current_address = !empty($vehicle->current_address) ? $vehicle->current_address : '';
+                                $getCityandStateData = App\Models\Settings::getPincode($permanent_address);
 
                                 $city = !empty($vehicle->city) ? $vehicle->city : '';
                                 if (empty($city)) {
@@ -86,6 +116,10 @@ Add Vehicle Brand Models
                                     $state = !empty($getCityandStateData->state) ? $getCityandStateData->state : '';
                                 }
                                 $pincode = !empty($getCityandStateData->pincode) ? $getCityandStateData->pincode : '';
+                                if (empty($pincode)) {
+                                    $pincode = !empty($vehicle->pincode) ? $vehicle->pincode : '';
+                                }
+                                $vehicle_type_id = !empty($vehicle->vehicle_type_id) ? $vehicle->vehicle_type_id : 0;
                                 ?>
 
 
@@ -94,9 +128,16 @@ Add Vehicle Brand Models
 
                                     <div class="row" style="margin-top:10px; ">
                                         <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <p class="mg-b-10">Vehicle Number:</p>
+                                            <div class="mg-b-10">
+                                                <input class="form-control" name="vehicle_number" id="vehicle_number"
+                                                       value="@if($vehicle_number){{ $vehicle_number }} @endif" required="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
                                             <p class="mg-b-10">Owner Name:</p>
                                             <div class="mg-b-10">
-                                                <input type="text" name="owner_name" id="owner_name" value="{{$owner_name}}" class="form-control"/>
+                                                <input type="text" name="owner_name" required="" id="owner_name" value="{{$owner_name}}" class="form-control"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-3">
@@ -120,7 +161,6 @@ Add Vehicle Brand Models
 
                                         <div class="col-lg-3 col-md-3 col-sm-3">
                                             <p class="mg-b-10">Vehicles Type
-                                                <span class="tx-danger">*</span>
                                             </p>
 
                                             @php
@@ -130,8 +170,7 @@ Add Vehicle Brand Models
                                                     required="" onchange="vehicle_types()">
                                                 <option value="" label="Choose one"></option>
                                                 @foreach ($vehicle_type as $val)
-                                                <option value="{{ $val->id }}"
-                                                        @if (isset($data->vehicle_type_name) && $val->name == $data->vehicle_type_name) selected @endif>
+                                                <option value="{{ $val->id }}" @if($val->id == $vehicle_type_id) selected @endif>
                                                     {{ $val->name }}</option>
                                                 @endforeach
                                             </select>
@@ -143,7 +182,7 @@ Add Vehicle Brand Models
                                                 <option value="" label="Choose one"></option>
                                                 @foreach ($vehicleBrands as $val)
                                                 <option value="{{ $val->id }}"
-                                                        @if ($id) @if ($val->id == $data->brand_id) selected @endif
+                                                        @if ($id) @if ($val->id == $vehicle->brand_id) selected @endif
                                                     @endif>{{ $val->name }}</option>
                                                 @endforeach
                                             </select>
@@ -154,16 +193,17 @@ Add Vehicle Brand Models
 
                                             <p class="mg-b-10">Model Name <span class="tx-danger">*</span></p>
                                             {{-- <input class="form-control" type="text" name="model_name" id="model_name"
-                                                value="@if (old('model_name')) {{ old('model_name') }}@elseif($id){{ $data->model_name }} @endif"> --}}
+                                                value="@if (old('model_name')) {{ old('model_name') }}@elseif($id){{ $vehicle->model_name }} @endif"> --}}
                                             @php
                                             $model_id = App\Models\VehicleBrandModels::all();
+                                            $vehicle_model_id = !empty($vehicle->model_id) ? $vehicle->model_id : 0;
                                             @endphp
                                             <select class="form-control" onchange="model_names()" name="model_name"
                                                     id="model_name">
                                                 <option value="" label="Choose one"></option>
                                                 @foreach ($model_id as $val)
                                                 <option value="{{ $val->id }}"
-                                                        @if (isset($data->model_name) && $val->name == $data->model_name) selected @endif>
+                                                        @if ($val->id == $vehicle_model_id) selected @endif>
                                                     {{ $val->name }}</option>
                                                 @endforeach
                                             </select>
@@ -182,13 +222,13 @@ Add Vehicle Brand Models
                                                 <option value="" label="Choose one"></option>
                                                 @foreach ($VehicleFuel as $val)
                                                 <option value="{{ $val->id }}"
-                                                        @if ($val->name == $fuel_type) selected @endif>
+                                                        @if ($val->name == $fuel_type || $fuel_type_id == $val->id) selected @endif>
                                                     {{ $val->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         @php
-                                        // dd($data);
+                                        // dd($vehicle);
                                         @endphp
 
                                         <div class="col-lg-3 col-md-3 col-sm-3" style='margin-top:10px;'>
@@ -197,7 +237,7 @@ Add Vehicle Brand Models
                                             </p>
                                             <input class="form-control fc-datepicker hasDatepicker"
                                                    value="@if(!empty($insurance_exp_date)){{ $insurance_exp_date }} @endif"
-                                                   name="insurance_exp_date" placeholder="MM-DD-YYYY" required=""
+                                                   name="insurance_exp_date" placeholder="MM-DD-YYYY" 
                                                    type="text">
                                         </div>
 
@@ -205,52 +245,46 @@ Add Vehicle Brand Models
                                         <div class="col-lg-3 col-md-3 col-sm-3" style='margin-top:10px;'>
                                             <p class="mg-b-10">Permit Exp Date
 
-                                                <span class="tx-danger">*</span>
                                             </p>
                                             <input class="form-control fc-datepicker hasDatepicker"
                                                    value="@if(!empty($permit_validity_upto)){{ $permit_validity_upto }} @endif"
-                                                   name="permit_exp_date" placeholder="MM-DD-YYYY" required=""
+                                                   name="permit_exp_date" placeholder="MM-DD-YYYY"  
                                                    type="text">
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-3" style='margin-top:10px;'>
                                             <p class="mg-b-10">Fitness Exp Date
-                                                <span class="tx-danger">*</span>
                                             </p>
                                             <input class="form-control fc-datepicker hasDatepicker"
                                                    value="@if(!empty($fitness_upto)) {{ $fitness_upto }} @endif"
-                                                   name="fitness_exp_date" placeholder="MM-DD-YYYY" required=""
+                                                   name="fitness_exp_date" placeholder="MM-DD-YYYY"  
                                                    type="text">
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-3" style='margin-top:10px;'>
                                             <p class="mg-b-10">PUC Exp Date
-                                                <span class="tx-danger">*</span>
                                             </p>
                                             <input class="form-control fc-datepicker hasDatepicker"
                                                    value="@if(!empty($puc_exp_date)) {{ $puc_exp_date }} @endif"
-                                                   name="puc_exp_date" placeholder="MM-DD-YYYY" required=""
+                                                   name="puc_exp_date" placeholder="MM-DD-YYYY"  
                                                    type="text">
                                         </div>
 
                                         <div class="col-lg-3 col-md-3 col-sm-3" style='margin-top:10px;'>
                                             <p class="mg-b-10">Registration Year
-                                                <span class="tx-danger">*</span>
                                             </p>
                                             <input class="form-control datepicker-year hasDatepicker"
                                                    value="@if($registration_date){{ date('Y',strtotime($registration_date)) }} @endif"
-                                                   name="registration_year" placeholder="YYYY" required=""
+                                                   name="registration_year" placeholder="YYYY" 
                                                    type="text">
                                         </div>
 
 
                                         <div class="col-lg-3 col-md-3 col-sm-3" style='margin-top:10px;'>
                                             <p class="mg-b-10">City
-                                                <span class="tx-danger">*</span>
                                             </p>
                                             <input class="form-control" name="city" placeholder="City"   type="text" value='@if(!empty($city)){{trim($city)}}@endif'>
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-3" style='margin-top:10px;'>
                                             <p class="mg-b-10">State
-                                                <span class="tx-danger">*</span>
                                             </p>
                                             <input class="form-control" name="state" placeholder="State"  type="text" value='@if(!empty($state)){{trim($state)}}@endif'>
                                         </div>
@@ -261,16 +295,14 @@ Add Vehicle Brand Models
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4" style='margin-top:10px;'>
                                             <p class="mg-b-10">Street Address
-                                                <span class="tx-danger">*</span>
                                             </p>
-                                            <textarea class="form-control" name="street_address" placeholder="Street Address" required="" type="text">@if(!empty($street_address)){{trim($street_address)}}@endif
+                                            <textarea class="form-control" name="street_address" placeholder="Street Address"  type="text">@if(!empty($permanent_address)){{trim($permanent_address)}}@endif
                                             </textarea>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4" style='margin-top:10px;'>
                                             <p class="mg-b-10">Current Address
-                                                <span class="tx-danger">*</span>
                                             </p>
-                                            <textarea class="form-control" name="current_address" placeholder="Current Address" required="" type="text">@if(!empty($current_address)){{trim($current_address)}}@endif
+                                            <textarea class="form-control" name="current_address" placeholder="Current Address"  type="text">@if(!empty($current_address)){{trim($current_address)}}@endif
                                             </textarea>
                                         </div>
                                     </div>
@@ -279,85 +311,85 @@ Add Vehicle Brand Models
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">RC Front: <span class="tx-danger">*</span></p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="rc_front_url" id="rc_front_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->rc_front_url}}" @endif required="true"/>
+                                                <input type="file" name="rc_front_url" id="rc_front_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->rc_front_url}}" @endif />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">RC Back: <span class="tx-danger">*</span></p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="rc_back_url" id="rc_back_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->rc_back_url}}" @endif required="true"/>
+                                                <input type="file" name="rc_back_url" id="rc_back_url" class="dropify" data-height="200" @if(!$id)   @else data-default-file="{{$vehicle->rc_back_url}}" @endif />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Insurance Document:</p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="insurance_doc_url" id="insurance_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->insurance_doc_url}}" @endif/>
+                                                <input type="file" name="insurance_doc_url" id="insurance_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->insurance_doc_url}}" @endif/>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Permit Document:</p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="permit_doc_url" id="permit_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->permit_doc_url}}" @endif/>
+                                                <input type="file" name="permit_doc_url" id="permit_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->permit_doc_url}}" @endif/>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Fitness Document:</p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="fitness_doc_url" id="fitness_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->fitness_doc_url}}" @endif/>
+                                                <input type="file" name="fitness_doc_url" id="fitness_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->fitness_doc_url}}" @endif/>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">PUC Document: </p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="puc_doc_url" id="puc_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->puc_doc_url}}" @endif/>
+                                                <input type="file" name="puc_doc_url" id="puc_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->puc_doc_url}}" @endif/>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Agreement Document: </p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="agreement_doc_url" id="agreement_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->agreement_doc_url}}" @endif/>
+                                                <input type="file" name="agreement_doc_url" id="agreement_doc_url" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->agreement_doc_url}}" @endif/>
                                             </div>
                                         </div> 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <label class="main-content-label tx-13 mg-b-20">Vehicle Images</label>
                                         </div>
-                                     
+
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Front: <span class="tx-danger">*</span></p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="Front" id="Front" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->dl_front_url}}" @endif required="true"/>
+                                                <input type="file" name="Front" id="Front" class="dropify" data-height="200" @if(!$id)   @else data-default-file="{{$vehicle->dl_front_url}}" @endif />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Back: <span class="tx-danger">*</span></p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="Back" id="Back" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->dl_back_url}}" @endif required="true"/>
+                                                <input type="file" name="Back" id="Back" class="dropify" data-height="200" @if(!$id)   @else data-default-file="{{$vehicle->dl_back_url}}" @endif />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Desktop: </p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="Desktop" id="Desktop" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->police_verification_url}}" @endif/>
+                                                <input type="file" name="Desktop" id="Desktop" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->police_verification_url}}" @endif/>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Left: </p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="Left" id="Left" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->dl_front_url}}" @endif/>
+                                                <input type="file" name="Left" id="Left" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->dl_front_url}}" @endif/>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Right:</p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="Right" id="Right" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->dl_back_url}}" @endif/>
+                                                <input type="file" name="Right" id="Right" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->dl_back_url}}" @endif/>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <p class="mg-b-10">Interior: </p>
                                             <div class="mg-b-10" id="fnWrapper">
-                                                <input type="file" name="Interior" id="Interior" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$data->police_verification_url}}" @endif/>
+                                                <input type="file" name="Interior" id="Interior" class="dropify" data-height="200" @if(!$id)  @else data-default-file="{{$vehicle->police_verification_url}}" @endif/>
                                             </div>
                                         </div>
                                     </div>
@@ -372,7 +404,24 @@ Add Vehicle Brand Models
                                         <input type="submit" class="btn ripple btn-primary pd-x-20 btn-block" id="manage_vehicle_save_buttton"
                                                value="{{ @trans('user.save') }}">
                                     </div>
+                                    @if(!empty($vehicle))
+                                    <br/>
+                                    <h3>Vehicle Extra Details</h3>
+                                    <div class="row">
+                                        @if($vehicle)
+                                        @foreach($vehicle as $key=>$value)
+                                        <div class="col-md-2">
+                                            <p class="mg-b-10"><b>{{$key}}</b></p>
+                                            <div class="mg-b-10" id="fnWrapper">
+                                                {{$value}}
+                                            </div>
+                                        </div>
 
+                                        @endforeach
+                                        @endif
+                                    </div>
+
+                                    @endif
 
 
                                 </div>
@@ -629,6 +678,14 @@ Add Vehicle Brand Models
      
      });*/
     });
-
+    $('#vehicle_number').on('keyup', function(){
+    string = $(this).val();
+    string = string.replace(/[\W_]/g, "_");
+    string = string.replace("_", "");
+    string = string.toUpperCase();
+    $(this).val(string);
+    });
 </script>
+
+
 @endpush

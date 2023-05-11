@@ -52,7 +52,7 @@ class AdminController extends Controller
     }
 
     public function index_json(Request $request)
-    { 
+    {  
         $user = Auth::user();
         if (request('per_page') == 'all') {
             $countcompany = [];

@@ -1545,7 +1545,7 @@ User Details
                             <!--<a href="<?= url(Session::get('panel') . '/vehicles/create') ?>/<?= $user->id ?>">
                                 <button type="submit" class="btn btn-default text-right btn-sm" style="float: right;background-color: #15a39a;color:white;">Add</button>
                             </a>-->
-                            <a href="javascript:;" class="btn btn-default text-right btn-sm VehicleManage" data-user-id="{{$user->id}}" style="float: right;background-color: #15a39a;color:white;">
+                            <a href="<?= url(Session::get('panel') . '/vehicles/manage') ?>?user_id=<?= $user->id ?>" class="btn btn-default text-right btn-sm" data-user-id="{{$user->id}}" style="float: right;background-color: #15a39a;color:white;">
                                 Add
                             </a>
 
@@ -1569,8 +1569,12 @@ User Details
                                         {{$row->vehicle_number}}
                                     </button> 
                                     <div style="float:right">
+                                        <a href="<?= url(Session::get('panel') . '/vehicles/manage') ?>?user_id=<?= $user->id ?>&id={{$row->id}}" class="btn btn-default text-right btn-sm" data-user-id="{{$user->id}}" style="background-color: #15a39a;color:white;">
+                                            Edit
+                                        </a>
                                         <a href="{{url('/super-admin/travel/')}}/verify_vehicle_document/{{$row->id}}/1" class="btn btn-success btn-sm agent_document_verify"  >Approve All</a>
                                         <a href="{{url('/super-admin/travel/')}}/verify_vehicle_document/{{$row->id}}/0" class="btn btn-danger btn-sm agent_document_verify"  >Reject All</a>
+
                                     </div>
 
                                 </div>
@@ -1585,6 +1589,30 @@ User Details
                                                 <span>Vehicle Name</span>
                                                 <div class="user_edit show_image" title="Images">
                                                     {{$row->vehicle_number}}
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="main-profile-contact-list">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span>Owner Name</span>
+                                                <div class="user_edit show_image" title="Images">
+                                                    {{$row->owner_name}}
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="main-profile-contact-list">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span>Owner Mobile Number</span>
+                                                <div class="user_edit show_image" title="Images">
+                                                    {{$row->owner_mobile_no}}
                                                 </div>
                                             </div> 
                                         </div>
@@ -1624,7 +1652,7 @@ User Details
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2" style="margin-top:10px;">
                                     <div class="main-profile-contact-list">
                                         <div class="media">
                                             <div class="media-body">
@@ -1634,12 +1662,42 @@ User Details
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2" style="margin-top:10px;">
                                     <div class="main-profile-contact-list">
                                         <div class="media">
                                             <div class="media-body">
                                                 <span>Vehicle Registration</span>
                                                 <div>{{$row->registration_year}}</div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" style="margin-top:10px;">
+                                    <div class="main-profile-contact-list">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span>Pincode</span>
+                                                <div>{{$row->pincode}}</div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" style="margin-top:10px;">
+                                    <div class="main-profile-contact-list">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span>Permanent Address</span>
+                                                <div>{{$row->permantent_address}}</div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" style="margin-top:10px;">
+                                    <div class="main-profile-contact-list">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span>Current Address</span>
+                                                <div>{{$row->current_address}}</div> 
                                             </div>
                                         </div>
                                     </div>
@@ -1657,7 +1715,6 @@ User Details
                                                 <div class="user_edit">
                                                     {{$row->insurance_exp_date}}
                                                 </div>
-                                                <input type="hidden" class="form-control rider_name" name="" id="user_edit_detail" value="Mitesh Prajapati">
                                             </div>
 
 
@@ -1686,7 +1743,6 @@ User Details
                                                 <div class="user_edit">
                                                     {{$row->permit_exp_date}}
                                                 </div>
-                                                <input type="hidden" class="form-control rider_name" name="" id="user_edit_detail" value="Mitesh Prajapati">
                                             </div> 
                                         </div>
                                     </div>
@@ -1699,7 +1755,30 @@ User Details
                                                 <div class="user_edit">
                                                     {{$row->puc_exp_date}}
                                                 </div>
-                                                <input type="hidden" class="form-control rider_name" name="" id="user_edit_detail" value="Mitesh Prajapati">
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="main-profile-contact-list">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span>Permit No</span>
+                                                <div class="user_edit">
+                                                    {{$row->permit_no}}
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="main-profile-contact-list">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span>PUC No</span>
+                                                <div class="user_edit">
+                                                    {{$row->puc_number}}
+                                                </div>
                                             </div> 
                                         </div>
                                     </div>
@@ -1718,6 +1797,7 @@ User Details
                                         <div class="media">
                                             <div class="media-body">
                                                 <span>RC</span> 
+
                                             </div> 
                                         </div>
                                     </div>
@@ -1735,16 +1815,17 @@ User Details
                                                     $extension = $Infos['extension'];
                                                     if (strtolower($extension) != 'pdf') {
                                                         ?>
-                                                                                                                                                                                                                                                <!--<img alt="docuemtn image" class="img-thumbnail image-class" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')">-->
+                                                                                                                                                                                                                                                                <!--<img alt="docuemtn image" class="img-thumbnail image-class" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')">-->
+                                                        <img src='{{$row->insurance_doc_url}}' width="10%" height="10%" title="Permit Doc URL"/> 
 
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')"><i class="fa fa-eye"></i></button>                                                                                     
+                                                            <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')"><i class="fa fa-eye"></i></button>-->                                                                                     
 
                                                     <?php } else { ?>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="getPdf('{{$row->insurance_doc_url}}', 'Insurance Document')" src="{{ asset('pdf.png') }}"><i class="fa fa-eye"></i></button>                                                                                     
-                                                    <!--<img style="cursor:pointer;"  width="75%">-->
+                                                            <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="getPdf('{{$row->insurance_doc_url}}', 'Insurance Document')" src="{{ asset('pdf.png') }}"><i class="fa fa-eye"></i></button>-->                                                                                     
+                                                        <!--<img style="cursor:pointer;"  width="75%">-->
                                                     <?php } ?>
                                                     @else
-                                                    <button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'insurance_doc_url_status', 'insurance_doc_url', 'vehicles')">Upload Image</button>                                                                                    
+                                                    <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'insurance_doc_url_status', 'insurance_doc_url', 'vehicles')">Upload Image</button>-->                                                                                    
                                                     @endif
                                                 </div>
 
@@ -1761,12 +1842,14 @@ User Details
                                         $extension = $Infos['extension'];
                                         if (strtolower($extension) != 'pdf') {
                                             ?>
-                                            <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->permit_doc_url}}" onclick="getImage('{{$row->permit_doc_url}}', 'Permit Document')"><i class="fa fa-eye"></i></button>                                                                                      
+                                            <img src='{{$row->permit_doc_url}}' width="10%" height="10%" title="Permit Doc URL"/> 
+
+            <!--                                            <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->permit_doc_url}}" onclick="getImage('{{$row->permit_doc_url}}', 'Permit Document')"><i class="fa fa-eye"></i></button>                                                                                      -->
                                         <?php } else { ?>
-                                            <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->permit_doc_url}}', 'Permit Document')" src="{{ asset('pdf.png') }}" width="75%"><i class="fa fa-eye"></i></button>
+                                                <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->permit_doc_url}}', 'Permit Document')" src="{{ asset('pdf.png') }}" width="75%"><i class="fa fa-eye"></i></button>-->
                                         <?php } ?>
                                         @else
-                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'permit_doc_url_status', 'permit_doc_url', 'vehicles')">Change Image</button>
+                                        <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'permit_doc_url_status', 'permit_doc_url', 'vehicles')">Change Image</button>-->
                                         @endif
                                     </div>
 
@@ -1780,12 +1863,13 @@ User Details
                                         $extension = $Infos['extension'];
                                         if (strtolower($extension) != 'pdf') {
                                             ?>
-                                            <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->fitness_doc_url}}" onclick="getImage('{{$row->fitness_doc_url}}', 'Fitness Document')"><i class="fa fa-eye"></i></button>                                                                                      
+                                            <img src='{{$row->fitness_doc_url}}' width="10%" height="10%" title="Fitness Doc URL"/> 
+                                           <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->fitness_doc_url}}" onclick="getImage('{{$row->fitness_doc_url}}', 'Fitness Document')"><i class="fa fa-eye"></i></button>-->                                                                                      
                                         <?php } else { ?>
-                                            <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->fitness_doc_url}}', 'Fitness Document')" src="{{ asset('pdf.png') }}"><i class="fa fa-eye"></i></button>
+                                            <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->fitness_doc_url}}', 'Fitness Document')" src="{{ asset('pdf.png') }}"><i class="fa fa-eye"></i></button>-->
                                         <?php } ?>
                                         @else
-                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'fitness_doc_url_status', 'fitness_doc_url', 'vehicles')">Change Image</button>
+                                        <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'fitness_doc_url_status', 'fitness_doc_url', 'vehicles')">Change Image</button>-->
                                         @endif
                                     </div>
 
@@ -1800,17 +1884,19 @@ User Details
                                         $extension = !empty($Infos['extension']) ? $Infos['extension'] : '';
                                         if (strtolower($extension) != 'pdf') {
                                             ?>
-                                            <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->puc_doc_url}}" onclick="getImage('{{$row->puc_doc_url}}', 'PUC Document')"><i class="fa fa-eye"></i></button>                                                                                      
+                                            <img src='{{$row->puc_doc_url}}' width="10%" height="10%" title="PUC Doc URL"/>
+
+                                                        <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->puc_doc_url}}" onclick="getImage('{{$row->puc_doc_url}}', 'PUC Document')"><i class="fa fa-eye"></i></button>-->                                                                                      
                                         <?php } else { ?>
-                                            <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->puc_doc_url}}', 'PUC Document')" src="{{ asset('pdf.png') }}"><i class="fa fa-eye"></i></button>
+                                                <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->puc_doc_url}}', 'PUC Document')" src="{{ asset('pdf.png') }}"><i class="fa fa-eye"></i></button>-->
                                         <?php } ?>
                                         @else
-                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'puc_doc_url_status', 'puc_doc_url', 'vehicles')">Upload</button>
+                                        <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="imageUpload('vehicles','{{$row->id}}', 'puc_doc_url_status', 'puc_doc_url', 'vehicles')">Upload</button>-->
                                         @endif
                                     </div>
 
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2" style="margin-top:10px;">
                                     <div class="main-profile-contact-list">
                                         <div class="media">
                                             <div class="media-body">
@@ -1821,17 +1907,18 @@ User Details
                                                     $extension = $Infos['extension'];
                                                     if (strtolower($extension) != 'pdf') {
                                                         ?>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->agreement_doc_url}}" onclick="getImage('{{$row->agreement_doc_url}}', 'Agreement Document')"><i class="fa fa-eye"></i></button>                                                                                      
+                                                        <img src='{{$row->agreement_doc_url}}' width="10%" height="10%" title="Agreement Doc URL"/>
+
                                                     <?php } else { ?>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->agreement_doc_url}}', 'Agreement Document')" src="{{ asset('pdf.png') }}" width="75%"><i class="fa fa-eye"></i></button>
+                                                            <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->agreement_doc_url}}', 'Agreement Document')" src="{{ asset('pdf.png') }}" width="75%"><i class="fa fa-eye"></i></button>-->
                                                     <?php } ?>
                                                     @endif
                                                 </div>
-                                                <!--<input type="hidden" class="form-control rider_name" name="" id="user_edit_detail" value="Mitesh Prajapati">-->
                                             </div> 
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-2">
                                     <div class="main-profile-contact-list">
                                         <div class="media">
@@ -1844,8 +1931,12 @@ User Details
                                                     $extension = $Infos['extension'];
                                                     if (strtolower($extension) != 'pdf') {
                                                         ?>
+                                                        <img src='{{$row->agreement_doc_url}}' width="10%" height="10%" title="Agreement Doc URL">
+
+                                                        <!--
                                                         <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$row->agreement_doc_url}}" onclick="getImage('{{$row->agreement_doc_url}}', 'Agreement Document')">Front</button>                                                                                      
                                                         <button type="button" class="btn ripple btn-primary btn-sm mt-2" onclick="getPdf('{{$row->rc_back_url}}', 'RC Back')" src="{{ asset('pdf.png') }}">Back</button>                                                                                      
+                                                        -->
                                                     <?php } else { ?>
                                                         <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->agreement_doc_url}}', 'Agreement Document')" src="{{ asset('pdf.png') }}" width="75%">Front</button>
                                                         <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{$row->agreement_doc_url}}', 'Agreement Document')" src="{{ asset('pdf.png') }}" width="75%">Front</button>
@@ -1866,7 +1957,12 @@ User Details
                                             <div class="media-body">
 
                                                 <div class="user_edit">
-
+                                                    @if(!empty($row->rc_front_url))
+                                                    <img src='{{$row->rc_front_url}}' width="10%" height="10%" title="Vehicle Front">
+                                                    @endif
+                                                    @if(!empty($row->rc_back_url))
+                                                    <img src='{{$row->rc_back_url}}' width="10%" height="10%" title="Vehicle Back">
+                                                    @endif
                                                     <?php
                                                     $id = $row->id;
                                                     $vehicleImages = \DB::table('vehicle_photo_mapping')
@@ -1879,10 +1975,14 @@ User Details
                                                         $vehicle_image_url = $imagesList->image_url;
                                                         $vehicle_view_name = $imagesList->view_name;
                                                         ?> 
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$vehicle_image_url}}" onclick="getImage('{{$vehicle_image_url}}', 'Agreement Document')">{{$vehicle_view_name}}</button>                                                                                         
+                                                        @if(!empty($vehicle_image_url))
+                                                        <img src='{{$vehicle_image_url}}' width="10%" height="10%" title="{{$vehicle_view_name}}">
+                                                        @endif
+                                                        <!--<button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{$vehicle_image_url}}" onclick="getImage('{{$vehicle_image_url}}', 'Agreement Document')">{{$vehicle_view_name}}</button>-->                                                                                         
                                                     <?php }
                                                     ?>
-                                                    <a href="{{url('/')}}/super-admin/vehicles/edit/{{$row->id}}" target="_blank" class="btn btn-default text-right btn-sm" style="float: right;background-color: #15a39a;color:white;">Edit</a>
+
+                                                    <!--<a href="{{url('/')}}/super-admin/vehicles/edit/{{$row->id}}" target="_blank" class="btn btn-default text-right btn-sm" style="float: right;background-color: #15a39a;color:white;">Edit</a>-->
                                                 </div>
                                             </div> 
                                         </div>
@@ -2107,20 +2207,32 @@ User Details
                                             <div class="media-body">
                                                 <span>Documents</span>
                                                 <div class="user_edit">
+                                                    @if(!empty($d['agent_logo']))
+                                                    <img src='{{$d['agent_logo']}}' width="20%" height="40%" title="{{$d['agent_logo']}}">
+                                                    @endif
                                                     @if(!empty($d['dl_front_url']))
+                                                    <img src='{{$d['dl_front_url']}}' width="20%" height="40%" title="{{$d['dl_front_url']}}">
+                                                    @endif
+
+                                                    @if(!empty($d['dl_front_url']))
+                                                    <img src='{{$d['dl_back_url']}}' width="20%" height="40%" title="{{$d['dl_back_url']}}">
+                                                    @endif
+
+
+                                                    <!--  @if(!empty($d['dl_front_url']))
                                                     <?php
                                                     $Infos = pathinfo($d['dl_front_url']);
 
                                                     $extension = !empty($Infos['extension']) ? $Infos['extension'] : '';
                                                     if (strtolower($extension) != 'pdf') {
                                                         ?>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{ $d['dl_front_url'] }}" onclick="getImage('{{ $d['dl_front_url'] }}', 'Front URL')">Front</button>                                                                                      
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{ $d['dl_back_url'] }}" onclick="getImage('{{ $d['dl_back_url'] }}', 'Back URL')">Back</button>                                                                                      
+                                                              <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{ $d['dl_front_url'] }}" onclick="getImage('{{ $d['dl_front_url'] }}', 'Front URL')">Front</button>                                                                                      
+                                                              <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{ $d['dl_back_url'] }}" onclick="getImage('{{ $d['dl_back_url'] }}', 'Back URL')">Back</button>                                                                                      
                                                     <?php } else { ?>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{ $d['dl_front_url'] }}', 'Front')" src="{{ asset('pdf.png') }}" width="75%">Front</button>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{ $d['dl_back_url'] }}', 'Back')" src="{{ asset('pdf.png') }}" width="75%">Back</button>
+                                                              <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{ $d['dl_front_url'] }}', 'Front')" src="{{ asset('pdf.png') }}" width="75%">Front</button>
+                                                              <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{ $d['dl_back_url'] }}', 'Back')" src="{{ asset('pdf.png') }}" width="75%">Back</button>
                                                     <?php } ?>
-                                                    @endif
+                                                      @endif--->
                                                 </div>
                                             </div> 
                                         </div>
@@ -2146,7 +2258,7 @@ User Details
                                 <div class="col-md-2">
                                     <div class="mg-sm-r-40 mg-b-10">
                                         <div class="main-profile-contact-list">
-                                            <span>Documents</span>
+                                            <span>Approve/Reject</span>
 
                                             <div class="media">
                                                 <div class="media-body">
@@ -2196,17 +2308,20 @@ User Details
                                             <div class="media-body">
                                                 <span>Police Verification Document</span>
                                                 <div class="user_edit">
-
+                                                    @if(!empty($d['police_verification_url']))
+                                                    <img src='{{$d['police_verification_url']}}' width="20%" height="40%" title="{{$d['police_verification_url']}}">
+                                                    @endif
+                                                    <!--           
                                                     <?php
                                                     $Infos = pathinfo($d['police_verification_url']);
                                                     $extension = !empty($Infos['extension']) ? $Infos['extension'] : '';
                                                     if (strtolower($extension) != 'pdf') {
                                                         ?>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{ $d['police_verification_url'] }}" onclick="getImage('{{ $d['police_verification_url'] }}', 'Front URL')"><i class="fa fa-eye"></i></button>                                                                                      
+                                                                       <button type="button" class="btn ripple btn-primary btn-sm mt-2" src="{{ $d['police_verification_url'] }}" onclick="getImage('{{ $d['police_verification_url'] }}', 'Front URL')"><i class="fa fa-eye"></i></button>                                                                                      
                                                     <?php } else { ?>
-                                                        <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{ $d['police_verification_url'] }}', 'Front')" src="{{ asset('pdf.png') }}" width="75%"><i class="fa fa-eye"></i></button>
+                                                                       <button type="button" class="btn ripple btn-primary btn-sm mt-2"  onclick="getPdf('{{ $d['police_verification_url'] }}', 'Front')" src="{{ asset('pdf.png') }}" width="75%"><i class="fa fa-eye"></i></button>
                                                     <?php } ?>
-
+                                                    -->
                                                 </div>
                                             </div> 
                                         </div>
@@ -2215,10 +2330,10 @@ User Details
                                     @endif
                                 </div>
 
-                                <div class="col-md-12">  
-                                    <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>" target="_blank" class="btn btn-default text-right btn-sm" style="float: right;background-color: #15a39a;color:white;margin-top:20px;">Edit</a>
-
-                                </div>
+                                <!--                                <div class="col-md-12">  
+                                                                    <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>" target="_blank" class="btn btn-default text-right btn-sm" style="float: right;background-color: #15a39a;color:white;margin-top:20px;">Edit</a>
+                                
+                                                                </div>-->
                             </div>
 
 
@@ -2281,27 +2396,27 @@ User Details
 $i = 1;
 foreach ($drivers as $d) {
     ?>
-                                                                                                                                                              <tr>
-                                                                                                                                                                  <td><?= $i ?></td>
-                                                                                                                                                                  <td>{{ $d['first_name'] . ' ' . $d['last_name'] }}
-                                                                                                                                                                  </td>
-                                                                                                                                                                  <td>{{ $d['mobile_numebr'] }}</td>
-                                                                                                                                                                  <td>{{ $d['adhar_card_no'] }}</td>
-                                                                                                                                                                  <td>{{ $d['driving_licence_no'] }}</td>
-                                                                                                                                                                  <td>{{ $d['driving_licence_expiry_date'] }}</td>
-                                                                                                                                                                  <td>{{ $d['street_address'] }}</td>
-                                                                                                                                                                  <td class="act-btn">
-                                                                                                                                                                      <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
-                                                                                                                                                                         title="View" class="btn-sm btn-view">
-                                                                                                                                                                          <i class="material-icons">remove_red_eye</i>
-                                                                                                                                                                      </a>
-                                                                                                                                                                      {{-- <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
-                                                                                                                                                                                                                                                                      title="View" class="btn-sm btn-view">
-                                                                                                                                                                      <i class="material-icons">edit</i>
-                                                                                                                                                                                                  </a> --}}
-                                                                                                                                                                          </td>
-                                                                                                                                                                          
-                                                                                                                                                              </tr>
+                                                                                                                                                                              <tr>
+                                                                                                                                                                                  <td><?= $i ?></td>
+                                                                                                                                                                                  <td>{{ $d['first_name'] . ' ' . $d['last_name'] }}
+                                                                                                                                                                                  </td>
+                                                                                                                                                                                  <td>{{ $d['mobile_numebr'] }}</td>
+                                                                                                                                                                                  <td>{{ $d['adhar_card_no'] }}</td>
+                                                                                                                                                                                  <td>{{ $d['driving_licence_no'] }}</td>
+                                                                                                                                                                                  <td>{{ $d['driving_licence_expiry_date'] }}</td>
+                                                                                                                                                                                  <td>{{ $d['street_address'] }}</td>
+                                                                                                                                                                                  <td class="act-btn">
+                                                                                                                                                                                      <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
+                                                                                                                                                                                         title="View" class="btn-sm btn-view">
+                                                                                                                                                                                          <i class="material-icons">remove_red_eye</i>
+                                                                                                                                                                                      </a>
+                                                                                                                                                                                      {{-- <a href="<?= url(Session::get('panel') . '/driver/show') ?>/<?= $d['user_id'] ?>"
+                                                                                                                                                                                                                                                                                      title="View" class="btn-sm btn-view">
+                                                                                                                                                                                      <i class="material-icons">edit</i>
+                                                                                                                                                                                                                  </a> --}}
+                                                                                                                                                                                          </td>
+                                                                                                                                                                                          
+                                                                                                                                                                              </tr>
     <?php
     $i++;
 }
@@ -2667,7 +2782,7 @@ foreach ($drivers as $d) {
 
 @if (!empty($user))
 <!-- Change Status -->
-<div class="modal fade" id="editModal">
+<div class="modal" id="editModal"  data-toggle="modal" data-backdrop="false" style="display:none;">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
 
@@ -2769,7 +2884,7 @@ foreach ($drivers as $d) {
 </div>
 
 <!-- Image View Modal -->
-<div class="modal" id="attachModal" data-toggle="modal" data-backdrop="false">
+<div class="modal" id="attachModal" data-toggle="modal" data-backdrop="false" style="display:none;">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
 
@@ -2797,7 +2912,7 @@ foreach ($drivers as $d) {
 </div>
 
 <!-- PDF View Modal -->
-<div class="modal" id="attachPdfModal" data-toggle="modal" data-backdrop="false">
+<div class="modal" id="attachPdfModal" data-toggle="modal" data-backdrop="false"  style="display:none;">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
 
@@ -2817,7 +2932,7 @@ foreach ($drivers as $d) {
 </div>
 
 <!-- Image Upload Modal -->
-<div class="modal" id="imageUploadModal" data-toggle="modal" data-backdrop="false">
+<div class="modal" id="imageUploadModal" data-toggle="modal" data-backdrop="false"  style="display:none;" style="display:none;">
     <div class="modal-dialog modal-md modal-dialog-centered">
 
         <div class="modal-content">
@@ -2884,8 +2999,26 @@ foreach ($drivers as $d) {
     </div>
 </div>
 
+<div class="modal" id="ShowImageModal" data-toggle="modal" data-backdrop="false">
+    <div class="modal-dialog modal-lg"> 
+        <div class="modal-content"> 
+            <!-- Modal Header -->
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" id="close_driver_modal" onclick="closeImgModel()"> &times;</button>
+            </div> 
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="ShowImage">
 
-<div class="modal" tabindex="-1" role="dialog" id="modalDeleteConfirm">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalDeleteConfirm"  style="display:none;">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form action="{{ route('admin.users.reset', ['panel' => Session::get('panel')]) }}"
@@ -3018,6 +3151,7 @@ crossorigin="anonymous"></script>
     });
     });
     function closeImgModel() {
+    $('#ShowImageModal').modal('hide');
     //console.log("close button click here...");
     $("#image-gallery-image").attr('src', '');
     $("#image-gallery-image").css({
@@ -3712,7 +3846,6 @@ crossorigin="anonymous"></script>
 //                    
         });
         });
-  
         $('body').on('click', '.DriverManage', function(){
         user_id = $(this).attr('data-user-id');
         var siteurl = "{{ route('admin.driver.manageDriver',['panel' => Session::get('panel')]) }}";
@@ -3721,7 +3854,7 @@ crossorigin="anonymous"></script>
                 type: "POST",
                 data: {
                 "_token": "{{ csrf_token() }}",
-                        "id": user_id
+                        "user_id": user_id
                 },
                 success: function(response) {
                 $('#DriverManageModal').modal('show');
@@ -3750,6 +3883,11 @@ crossorigin="anonymous"></script>
 
         }
         });
+        });
+        $('img').on('click', function(){
+        img = $(this).attr('src');
+        $('#ShowImageModal').modal('show');
+        $('#ShowImage').html('<img src="' + img + '">');
         });
     </script>
     @endpush

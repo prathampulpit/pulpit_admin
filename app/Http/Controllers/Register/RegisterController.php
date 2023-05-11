@@ -3477,7 +3477,8 @@ class RegisterController extends Controller
             'Vehicle Type',
             'Profile Id',
             'Agent Profile Approval',
-            'Driver Profile Approva'
+            'Driver Profile Approva',
+            'Users Is Approved'
         );
 
         // Display column names as first row
@@ -3485,7 +3486,8 @@ class RegisterController extends Controller
         if (!empty($from_date) && !empty($end_date)) {
             $users = DB::select("SELECT u.first_name, u.last_name,u.emailid,u.mobile_number,
                     ut.name as UserType,u.app_version as app_version, s.name as State, c.name as City, v.vehicle_number as VehicleNumber,vt.name as VehicleType,
-                    uwp.profile_id,au.all_document_verify as AgentProfileApproval,d.all_document_verify as DriverProfileApprova
+                    ,
+                    uwp.profile_id,au.all_document_verify as AgentProfileApproval,d.all_document_verify as DriverProfileApprova,u.is_approved as usersIsApproved
                     FROM users as u LEFT JOIN
                     user_work_profile as uwp on uwp.user_id = u.id AND uwp.status = 1 LEFT JOIN
                     user_type as ut on u.user_type_id = ut.id LEFT JOIN
@@ -3506,7 +3508,7 @@ class RegisterController extends Controller
         } else {
             $users = DB::select("SELECT u.first_name, u.last_name,u.emailid,u.mobile_number,
                     ut.name as UserType,u.app_version as app_version, s.name as State, c.name as City, v.vehicle_number as VehicleNumber,vt.name as VehicleType,
-                    uwp.profile_id,au.all_document_verify as AgentProfileApproval,d.all_document_verify as DriverProfileApprova
+                    uwp.profile_id,au.all_document_verify as AgentProfileApproval,d.all_document_verify as DriverProfileApprova,u.is_approved as usersIsApproved
                     FROM users as u LEFT JOIN
                     user_work_profile as uwp on uwp.user_id = u.id AND uwp.status = 1 LEFT JOIN
                     user_type as ut on u.user_type_id = ut.id LEFT JOIN
@@ -3523,15 +3525,30 @@ class RegisterController extends Controller
                     drivers as d on d.id = uwp.profile_id AND d.status = 1 AND ut.id IN ('4','5') 
                     WHERE (ut.id != 4 OR ut.id IS NULL) AND u.status = 1 AND u.type = 'user' AND (uwp.status = 1 OR uwp.status IS NULL) group by u.id");
         }
+        
         if (isset($users)) {
             foreach ($users as $val) {
-                $lineData = array($val->first_name, $val->last_name, $val->emailid, $val->mobile_number, $val->UserType, $val->app_version, $val->State, $val->City, $val->VehicleNumber, $val->VehicleType, $val->profile_id, $val->AgentProfileApproval, $val->DriverProfileApprova);
+                $usersIsApproved = "Not Approved";
+                if($val->usersIsApproved == 1){
+                    $usersIsApproved = "Approved";
+                }
+                $first_name = !empty(trim($val->first_name)) ? str_replace(',', ' ', $val->first_name) : 'N/A';
+                $first_name = !empty(trim($first_name)) ? str_replace(';', ' ', $first_name) : 'N/A';
+                $last_name = !empty(trim($val->last_name)) ? str_replace(',', ' ', $val->last_name) : 'N/A';
+                $City = !empty(trim($val->City)) ? str_replace(',', ' ', $val->City) : 'N/A';
+                $State = !empty(trim($val->State)) ? str_replace(',', ' ', $val->State) : 'N/A';
+                $VehicleNumber = !empty(trim($val->VehicleNumber)) ? str_replace(',', ' ', $val->VehicleNumber) : 'N/A';
+                $emailid = !empty(trim($val->emailid)) ? $val->emailid : 'N/A';
+                $mobile_number = !empty($val->mobile_number) ? $val->mobile_number : 'N/A';
+                $lineData = array($first_name, $last_name, $emailid, $mobile_number, $val->UserType, $val->app_version, $State, $City, $VehicleNumber, $val->VehicleType, $val->profile_id, $val->AgentProfileApproval, $val->DriverProfileApprova,$usersIsApproved);
+             //   $lineData = array($val->first_name, $last_name, $emailid, $mobile_number, $val->UserType, $val->app_version, $val->State, $val->City, $val->VehicleNumber, $val->VehicleType, $val->profile_id, $val->AgentProfileApproval, $val->DriverProfileApprova,$usersIsApproved);
                 $excelData .= implode("\t", array_values($lineData)) . "\n";
+              
             }
         } else {
             $excelData .= 'No records found...' . "\n";
         }
-
+ 
         // Headers for download 
         header("Content-Type: application/vnd.ms-excel");
 //        header("Content-Type: application/vnd.ms-csv");
