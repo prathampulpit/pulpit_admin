@@ -1812,7 +1812,7 @@ User Details
                                                     @if(!empty($row->insurance_doc_url))
                                                     <?php
                                                     $Infos = pathinfo($row->insurance_doc_url);
-                                                    $extension = $Infos['extension'];
+                                                    $extension = !empty($Infos['extension']) ? !$Infos['extension'] : '';;
                                                     if (strtolower($extension) != 'pdf') {
                                                         ?>
                                                                                                                                                                                                                                                                 <!--<img alt="docuemtn image" class="img-thumbnail image-class" src="{{$row->insurance_doc_url}}" onclick="getImage('{{$row->insurance_doc_url}}', 'Insurance Document')">-->
@@ -1839,7 +1839,7 @@ User Details
                                         @if(!empty($row->permit_doc_url))
                                         <?php
                                         $Infos = pathinfo($row->permit_doc_url);
-                                        $extension = $Infos['extension'];
+                                        $extension = !empty($Infos['extension']) ? !$Infos['extension'] : '';;
                                         if (strtolower($extension) != 'pdf') {
                                             ?>
                                             <img src='{{$row->permit_doc_url}}' width="10%" height="10%" title="Permit Doc URL"/> 
@@ -1860,7 +1860,7 @@ User Details
                                         @if(!empty($row->fitness_doc_url))
                                         <?php
                                         $Infos = pathinfo($row->fitness_doc_url);
-                                        $extension = $Infos['extension'];
+                                        $extension = !empty($Infos['extension']) ? !$Infos['extension'] : '';;
                                         if (strtolower($extension) != 'pdf') {
                                             ?>
                                             <img src='{{$row->fitness_doc_url}}' width="10%" height="10%" title="Fitness Doc URL"/> 
@@ -3018,7 +3018,7 @@ foreach ($drivers as $d) {
 </div>
 
 
-<div class="modal" tabindex="-1" role="dialog" id="modalDeleteConfirm"  style="display:none;">
+<div class="modal" role="dialog" id="modalDeleteConfirm">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form action="{{ route('admin.users.reset', ['panel' => Session::get('panel')]) }}"
@@ -3126,9 +3126,11 @@ crossorigin="anonymous"></script>
 <script type="text/javascript">
 
     function confirmModal() {
+        
+       
     var id = $('#user_reset_id').val();
     $('#user_id').val(id);
-    $('#modalDeleteConfirm').modal();
+    $('#modalDeleteConfirm').modal('show');
     }
     $(document).ready(function() {
     const element = document.getElementById('panzoom')
