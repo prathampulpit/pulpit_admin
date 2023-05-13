@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <!-- End Page Header -->
+             <!-- End Page Header -->
 
             <div class="row">
                 <div class="col-sm-8 col-lg-8 col-xl-8">
