@@ -200,10 +200,10 @@
                             <div class="row">
                                 <div class="col-lg-3 daterangpicker-vuejs">
                                     <date-picker v-model="start_date" :lang="picker12Lang" valueType="format"
-                                        placeholder="Select Date" format="YYYY-MM-DD"></date-picker>
+                                        placeholder="Select Date" format="YYYY-MM-DD" style="width:92%;"></date-picker>
                                 </div>
 
-                                <div class="col-lg-2">
+                                <div class="col-lg-4">
                                     <select class="form-control" id="user_type" v-model="user_type"
                                         style="margin-left: -28px;">
                                         <option value="all" selected>All</option>
@@ -221,7 +221,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-lg-2">
+                                <div class="col-lg-4">
                                     <select class="form-control" id="user_interest_status"
                                         v-model="user_interest_status" style="margin-left: -28px;">
                                         <option value="" selected>Select User Status</option>
@@ -237,19 +237,15 @@
                                         <div
                                             class="form-group select btm-arrow mb-0 d-flex without-label align-items-center">
                                             <button type="button" class="btn ripple btn-primary"
-                                                @click="master_search"><i class="ti-search" data-toggle="tooltip"
-                                                    title="" data-original-title="ti-search"></i></button>
+                                                @click="master_search" style="width: 100%;"> Submit</button>
                                             <i class="material-icons" style="cursor: pointer;" v-if="start_date"
                                                 @click="clearSearch">close</i>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-3">
-                                    <div class="table-top-panel d-flex align-items-center">
-                                        &nbsp;
-                                    </div>
-                                </div>
+                                <!-- <i class="ti-search" data-toggle="tooltip"
+                                                    title="" data-original-title="ti-search"></i> -->
+                               
                                 <div class="col-lg-1">
                                     <div class="table-top-panel d-flex align-items-center">
                                         @php
@@ -286,7 +282,7 @@
                                     <div class="form-group search-input float-right mb-3">
                                         <!-- <img src="{{asset('img/admin/ic_search.png')}}" srcset="{{asset('img/admin/ic_search@2x.png 2x')}}" alt="search"> -->
                                         <input type="text" class="form-control" name="search_text" id="search_text"
-                                            v-model="search_text" @input="search" placeholder="Search">
+                                            v-model="search_text" @input="search" placeholder="Search" style="width:300px;">
                                         <!-- <i class="material-icons" v-if="search_text" @click="clearSearch">close</i> -->
                                     </div>
                                 </div>

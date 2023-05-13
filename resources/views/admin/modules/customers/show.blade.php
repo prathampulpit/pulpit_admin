@@ -128,7 +128,7 @@ Customer Details
                                                         <div class="main-profile-contact-list">
                                                             <div class="media">
                                                                 <div class="media-icon bg-primary-transparent text-primary"> <i class="ti-rss-alt sidemenu-icon"></i> </div>
-                                                                <div class="media-body"> <span>Refferal Done with Reffral Conectivity</span>
+                                                                <div class="media-body"> <span>Refferal Done</span>
                                                                     <div>{{$referrals_done}}</div>
                                                                 </div>
                                                             </div>

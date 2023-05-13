@@ -290,7 +290,7 @@ class="nav-sub-item"
                    href="{{ route('admin.subscriptionCoupons.index', ['panel' => Session::get('panel')]) }}">
                     <span class="shape1"></span><span class="shape2"></span>
                     <i class="ti-money sidemenu-icon"></i>
-                    <span class="sidemenu-label">Renew Subscription Coupon</span>
+                    <span class="sidemenu-label">Renew Subscription</span>
                 </a>
             </li>
             @endif
@@ -385,7 +385,7 @@ class="nav-sub-item"
                    href="{{ route('admin.referralMasters.index', ['panel' => Session::get('panel')]) }}">
                     <span class="shape1"></span><span class="shape2"></span>
                     <i class="ti-menu-alt sidemenu-icon"></i>
-                    <span class="sidemenu-label">{{ @trans('sidebar.manage_referral_masters') }}</span>
+                    <span class="sidemenu-label">Manage Referral</span>
                 </a>
             </li>
             @endif
@@ -500,14 +500,14 @@ class="nav-sub-item"
                 <a class="nav-link" href="{{ route('admin.customer_trip.customer_trip_offline',['panel' => Session::get('panel')]) }}">
                     <span class="shape1"></span><span class="shape2"></span>
                     <i class="ti-user sidemenu-icon"></i>
-                    <span class="sidemenu-label">Website Trip Booking</span>
+                    <span class="sidemenu-label">Website Trip</span>
                 </a>
             </li>
             <li class="nav-item nav-visitor-trip-customer">
                 <a class="nav-link" href="{{ route('admin.customer_trip.customer_trip_offline_visitor',['panel' => Session::get('panel')]) }}">
                     <span class="shape1"></span><span class="shape2"></span>
                     <i class="ti-user sidemenu-icon"></i>
-                    <span class="sidemenu-label">Website Trip Booking<br/> Visitor</span>
+                    <span class="sidemenu-label">Website Trip Visitor</span>
                 </a>
             </li>
 

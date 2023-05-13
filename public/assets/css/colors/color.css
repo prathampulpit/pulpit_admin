@@ -91,8 +91,8 @@ body {
 
 .btn-primary {
     color: #fff;
-    background-color: #25233c;
-    border-color: #25233c;
+    background-color: #fb8a60;
+    border-color: #fb8a60;
 }
 
 .btn-primary:hover {
@@ -753,7 +753,7 @@ pre {
 
 .main-sidebar-body li.active .sidemenu-label,
 .main-sidebar-body li.active i {
-    color: #25233c;
+    color: #21a5a0;
 }
 
 .light-horizontal .main-navbar.hor-menu .nav-item.active .nav-link,
@@ -795,7 +795,7 @@ pre {
 }
 
 .main-sidebar-body li.active .sidemenu-icon {
-    background: #25233c;
+    /* background: #25233c; */
 }
 
 .project .deadline {

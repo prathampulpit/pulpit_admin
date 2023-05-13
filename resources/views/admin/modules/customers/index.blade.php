@@ -211,14 +211,14 @@
                         <div class="card-body">
                             <style>
                                 .daterangpicker-vuejs {
-                                    width: 309px !important;
-                                    position: fixed !important;
+                                    width: 100% !important;
+                                    position: fixed !important;           
                                 }
                             </style>
                             <div class="row">
                                 <div class="col-lg-3 daterangpicker-vuejs">
                                     <date-picker v-model="start_date" :lang="picker12Lang" valueType="format"
-                                        placeholder="Select Date" format="YYYY-MM-DD"></date-picker>
+                                        placeholder="Select Date" format="YYYY-MM-DD" style="width:92%; font-weight: 500; "></date-picker>
                                 </div>
 
                                 <!-- <div class="col-lg-2">
@@ -232,7 +232,7 @@
                                 <div class="col-lg-4">
                                     <select class="form-control" v-model="state_id" id="state_id" name="state_id"
                                         style="margin-left: -28px;" onchange="getCity()">
-                                        <option value="" selected>PAN India</option>
+                                        <option value="">PAN India</option>
                                         <?php foreach ($states as $r) { ?>
                                         <option value="<?= $r['id']; ?>" @if($state_id==$r['id']) selected @endif>
                                             <?= $r['name']; ?>
@@ -256,17 +256,17 @@
                                 <div class="col-lg-1">
                                     <div class="table-top-panel d-flex align-items-center">
                                         <div
-                                            class="form-group select btm-arrow mb-0 d-flex without-label align-items-center">
+                                            class="form-group select btm-arrow mb-0 d-flex without-label align-items-center" >
                                             <button type="button" class="btn ripple btn-primary"
-                                                @click="master_search"><i class="ti-search" data-toggle="tooltip"
-                                                    title="" data-original-title="ti-search"></i></button>
+                                                @click="master_search" style="width:100%;">Search </button>
                                             <i class="material-icons" style="cursor: pointer;" v-if="start_date"
                                                 @click="clearSearch">close</i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            <!-- <i class="ti-search" data-toggle="tooltip"
+                                                    title="" data-original-title="ti-search"></i> -->
                             <div class="row">
                                 &nbsp;
                             </div>
@@ -277,8 +277,8 @@
                                         class="float-left form-group select btm-arrow mb-3 d-flex without-label align-items-center">
                                         <label style="white-space: nowrap;" class="mb-0 gray">{{
                                             @trans('usertype.record_per_page') }}&nbsp;</label>
-                                        <select class="form-control" id="per_page" v-model="per_page" @input="perPage">
-                                            <option value="25">25 </option>
+                                        <select class="form-control" id="per_page" v-model="per_page" @input="perPage" style="width: 100px;">
+                                            <option value="25">25</option>
                                             <option value="50">50</option>
                                             <option value="100">100</option>
                                             <option value="all">All</option>
@@ -289,7 +289,7 @@
                                     <div class="form-group search-input float-right mb-3">
                                         <!-- <img src="{{asset('img/admin/ic_search.png')}}" srcset="{{asset('img/admin/ic_search@2x.png 2x')}}" alt="search"> -->
                                         <input type="text" class="form-control" name="search_text" id="search_text"
-                                            v-model="search_text" @input="search" placeholder="Search">
+                                            v-model="search_text" @input="search" placeholder="Search" style="width: 300px;">
                                         <!-- <i class="material-icons" v-if="search_text" @click="clearSearch">close</i> -->
                                     </div>
                                 </div>
