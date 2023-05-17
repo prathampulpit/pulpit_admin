@@ -285,7 +285,6 @@
     bottom: 0;
     height: 30px;
     border-top-color: transparent;
-    border-left-color: transparent;
     border-bottom: transparent;
     border-radius: 0px 0px 48px 0px;
 }
@@ -309,7 +308,7 @@
     top: -30px;
     width: 20px;
     height: 60px;
-    right: 0px;
+    right: -3px;
 }
 
 .main-sidebar-body .nav-item.active .nav-link .shape2 {
@@ -317,7 +316,7 @@
     top: 35px;
     width: 20px;
     height: 30px;
-    right: 0px;
+    right: -3px;
 }
 
 .option-dots {
